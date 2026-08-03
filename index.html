@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>رمزي الحقوي | Ramzi Alhaqwi — @abu00salman</title>
+<meta name="description" content="الموقع الشخصي لرمزي الحقوي — شغوف بالتقنية والذكاء الاصطناعي والتصميم وصناعة المحتوى. Personal site of Ramzi Alhaqwi."/>
+<meta name="author" content="Ramzi Alhaqwi"/>
+<meta name="theme-color" content="#0a0c10"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>🚀</text></svg>"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="رمزي الحقوي | Ramzi Alhaqwi — @abu00salman"/>
+<meta property="og:description" content="شغوف بالتقنية والذكاء الاصطناعي والتصميم وصناعة المحتوى الرقمي"/>
+<meta property="og:locale" content="ar_SA"/>
+<meta property="og:locale:alternate" content="en_US"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="@abu00salman"/>
+<meta name="twitter:title" content="رمزي الحقوي | Ramzi Alhaqwi"/>
+<meta name="twitter:description" content="Technology, AI, Design & Content Creation"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Ramzi Alhaqwi","alternateName":"رمزي الحقوي","description":"Technology enthusiast, AI explorer, creative designer and digital content creator.","nationality":"Saudi Arabia","sameAs":[]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>*{box-sizing:border-box;margin:0}body{margin:0}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback,useMemo}=React;
+
+/* ═══════════ SVG Icons (inline — لا حاجة لمكتبة خارجية) ═══════════ */
+const I=({children,size=24,...p})=><svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>{children}</svg>;
+const Sun=({size,...p})=><I size={size} {...p}><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></I>;
+const Moon=({size,...p})=><I size={size} {...p}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></I>;
+const MenuIcon=({size,...p})=><I size={size} {...p}><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></I>;
+const XIcon=({size,...p})=><I size={size} {...p}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></I>;
+const ArrowUp=({size,...p})=><I size={size} {...p}><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></I>;
+const Sparkles=({size,...p})=><I size={size} {...p}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></I>;
+const Cpu=({size,...p})=><I size={size} {...p}><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></I>;
+const Brain=({size,...p})=><I size={size} {...p}><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M19.938 10.5a4 4 0 0 1 .585.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M19.967 17.484A4 4 0 0 1 18 18"/></I>;
+const AppleIcon=({size,...p})=><I size={size} {...p}><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 5-4 5-8s-2.17-4.55-3.92-4.55A4.4 4.4 0 0 0 14 11a4.4 4.4 0 0 0-3.08-1.55C9.17 9.45 7 9.94 7 14s2 8 5 8c1.25 0 2.5-1.06 4-1.06"/><path d="M10 2c1 .5 2 2 2 5"/><path d="M14 2c-1 .5-2 2-2 5"/></I>;
+const PaletteIcon=({size,...p})=><I size={size} {...p}><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2Z"/></I>;
+const Camera=({size,...p})=><I size={size} {...p}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></I>;
+const Trophy=({size,...p})=><I size={size} {...p}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></I>;
+const Clapperboard=({size,...p})=><I size={size} {...p}><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3Z"/><path d="m6.2 5.3 3.1 3.9"/><path d="m12.4 3.4 3.1 4"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></I>;
+const Rocket=({size,...p})=><I size={size} {...p}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></I>;
+const Briefcase=({size,...p})=><I size={size} {...p}><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></I>;
+const Smartphone=({size,...p})=><I size={size} {...p}><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></I>;
+const Mail=({size,...p})=><I size={size} {...p}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></I>;
+const SendIcon=({size,...p})=><I size={size} {...p}><path d="m22 2-7 20-4-9-9-4Z"/><path d="m22 2-11 11"/></I>;
+const MessageCircle=({size,...p})=><I size={size} {...p}><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></I>;
+const Ghost=({size,...p})=><I size={size} {...p}><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"/></I>;
+const InstagramIcon=({size,...p})=><I size={size} {...p}><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></I>;
+const YoutubeIcon=({size,...p})=><I size={size} {...p}><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></I>;
+const FacebookIcon=({size,...p})=><I size={size} {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></I>;
+const LinkedinIcon=({size,...p})=><I size={size} {...p}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></I>;
+const GithubIcon=({size,...p})=><I size={size} {...p}><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></I>;
+const AtSign=({size,...p})=><I size={size} {...p}><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></I>;
+const Music2=({size,...p})=><I size={size} {...p}><circle cx="8" cy="18" r="4"/><path d="M12 18V2l7 4"/></I>;
+const TwitterIcon=({size,...p})=><I size={size} {...p}><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></I>;
+const ExternalLink=({size,...p})=><I size={size} {...p}><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></I>;
+const ChevronLeft=({size,...p})=><I size={size} {...p}><path d="m15 18-6-6 6-6"/></I>;
+const ChevronRight=({size,...p})=><I size={size} {...p}><path d="m9 18 6-6-6-6"/></I>;
+const Search=({size,...p})=><I size={size} {...p}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></I>;
+const Command=({size,...p})=><I size={size} {...p}><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></I>;
+const Layers=({size,...p})=><I size={size} {...p}><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></I>;
+const Star=({size,...p})=><I size={size} {...p}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></I>;
+const Filter=({size,...p})=><I size={size} {...p}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></I>;
+const CheckCircle2=({size,...p})=><I size={size} {...p}><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></I>;
+const AlertCircle=({size,...p})=><I size={size} {...p}><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></I>;
+const Home=({size,...p})=><I size={size} {...p}><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></I>;
+const User=({size,...p})=><I size={size} {...p}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></I>;
+const FolderOpen=({size,...p})=><I size={size} {...p}><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></I>;
+const ImagesIcon=({size,...p})=><I size={size} {...p}><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></I>;
+const Share2=({size,...p})=><I size={size} {...p}><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></I>;
+const Globe=({size,...p})=><I size={size} {...p}><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></I>;
+const PhoneCall=({size,...p})=><I size={size} {...p}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></I>;
+
+/* ═══════════════════════════════════════════════════════════════════
+   📦 DATA — ملف البيانات المركزي
+   ✏️ عدّل كل النصوص والروابط والحسابات من هنا فقط.
+   ═══════════════════════════════════════════════════════════════════ */
+const DATA={
+  profile:{
+    nameAr:"رمزي الحقوي", nameEn:"Ramzi Alhaqwi", handle:"@abu00salman",
+    locationAr:"المملكة العربية السعودية", locationEn:"Saudi Arabia",
+    taglineAr:"شغوف بالتقنية، والذكاء الاصطناعي، والتصميم، وصناعة المحتوى، وتحويل الأفكار إلى تجارب رقمية مميزة.",
+    taglineEn:"Technology enthusiast, AI explorer, creative designer and digital content creator.",
+    aboutAr:"أنا رمزي الحقوي، مهتم بالتقنية والذكاء الاصطناعي والتصميم وصناعة المحتوى الرقمي. أحب استكشاف الأفكار الحديثة، وتصميم التجارب البصرية، ومتابعة أحدث التقنيات والمنتجات الرقمية، وتحويل الأفكار إلى مشاريع ومحتوى مفيد ومميز.",
+    aboutEn:"I'm Ramzi Alhaqwi — passionate about technology, artificial intelligence, design and digital content creation. I love exploring new ideas, crafting visual experiences, following the latest tech, and turning ideas into meaningful projects and content.",
+    photoUrl:"", // ✏️ ضع رابط صورتك هنا
+    email:"",    // ✏️ ضع بريدك هنا لتفعيل نموذج التواصل
+  },
+  // 🔗 الحسابات — ضع الرابط في url. فارغ = زر غير نشط.
+  socials:[
+    {id:"snapchat",name:"Snapchat",handle:"@abu00salman",url:"",color:"#f7e733",icon:Ghost},
+    {id:"x",name:"X",handle:"@abu00salman",url:"",color:"#9ab6d8",icon:TwitterIcon},
+    {id:"instagram",name:"Instagram",handle:"@abu00salman",url:"",color:"#E1306C",icon:InstagramIcon},
+    {id:"tiktok",name:"TikTok",handle:"@abu00salman",url:"",color:"#69C9D0",icon:Music2},
+    {id:"youtube",name:"YouTube",handle:"@abu00salman",url:"",color:"#FF5252",icon:YoutubeIcon},
+    {id:"threads",name:"Threads",handle:"@abu00salman",url:"",color:"#c8c8d0",icon:AtSign},
+    {id:"facebook",name:"Facebook",handle:"@abu00salman",url:"",color:"#1877F2",icon:FacebookIcon},
+    {id:"linkedin",name:"LinkedIn",handle:"@abu00salman",url:"",color:"#4a90d9",icon:LinkedinIcon},
+    {id:"github",name:"GitHub",handle:"@abu00salman",url:"",color:"#b0b8c4",icon:GithubIcon},
+    {id:"telegram",name:"Telegram",handle:"@abu00salman",url:"",color:"#2AABEE",icon:SendIcon},
+    {id:"whatsapp",name:"WhatsApp",handle:"@abu00salman",url:"",color:"#25D366",icon:MessageCircle},
+    {id:"email",name:"Email",handle:"@abu00salman",url:"",color:"#7cc4f7",icon:Mail},
+  ],
+  interests:[
+    {icon:Cpu,ar:"التقنية",en:"Technology",dAr:"متابعة أحدث الابتكارات والأجهزة الذكية",dEn:"Following the latest innovations and smart devices"},
+    {icon:Brain,ar:"الذكاء الاصطناعي",en:"Artificial Intelligence",dAr:"استكشاف أدوات ونماذج الذكاء الاصطناعي",dEn:"Exploring AI tools, models and possibilities"},
+    {icon:AppleIcon,ar:"منظومة Apple",en:"Apple Ecosystem",dAr:"أجهزة وأنظمة وتجارب Apple المتكاملة",dEn:"Apple devices, systems and seamless experiences"},
+    {icon:PaletteIcon,ar:"التصميم الإبداعي",en:"Creative Design",dAr:"تصميم واجهات وهويات بصرية حديثة",dEn:"Designing modern interfaces and visual identities"},
+    {icon:Clapperboard,ar:"صناعة المحتوى",en:"Content Creation",dAr:"إنتاج محتوى رقمي وقصص بصرية مميزة",dEn:"Producing digital content and visual stories"},
+    {icon:Camera,ar:"التصوير",en:"Photography",dAr:"توثيق اللحظات بعدسة إبداعية",dEn:"Capturing moments with a creative lens"},
+    {icon:Briefcase,ar:"الأعمال الرقمية",en:"Digital Business",dAr:"أفكار ومشاريع رقمية وريادة أعمال",dEn:"Digital ideas, projects and entrepreneurship"},
+    {icon:Trophy,ar:"كرة القدم وكأس العالم",en:"Football & World Cup",dAr:"شغف بالمستديرة وأجواء المونديال",dEn:"Passion for football and World Cup vibes"},
+    {icon:Smartphone,ar:"التطبيقات والمواقع",en:"Apps & Websites",dAr:"بناء تطبيقات ومواقع عصرية",dEn:"Building modern apps and websites"},
+    {icon:Rocket,ar:"تقنيات المستقبل",en:"Future Technologies",dAr:"نظرة دائمة نحو الغد وما بعده",dEn:"Always looking toward tomorrow and beyond"},
+  ],
+  projectCategories:[
+    {id:"all",ar:"الكل",en:"All"},{id:"design",ar:"التصميم",en:"Design"},{id:"ai",ar:"الذكاء الاصطناعي",en:"AI"},
+    {id:"web",ar:"المواقع والتطبيقات",en:"Web & Apps"},{id:"content",ar:"صناعة المحتوى",en:"Content"},
+    {id:"sports",ar:"المشاريع الرياضية",en:"Sports"},{id:"wc2026",ar:"كأس العالم 2026",en:"World Cup 2026"},
+    {id:"personal",ar:"المشاريع الشخصية",en:"Personal"},{id:"future",ar:"الأفكار المستقبلية",en:"Future Ideas"},
+  ],
+  projects:[
+    {id:1,cat:"wc2026",url:"",cover:"linear-gradient(135deg,#0a3d2e,#1a936f,#88d498)",tAr:"منصة كأس العالم 2026",tEn:"World Cup 2026 Platform",dAr:"منصة تفاعلية شاملة لمتابعة المونديال بواجهة عربية وإنجليزية.",dEn:"An interactive hub for the tournament — fully bilingual.",tech:["HTML","CSS","JS"]},
+    {id:2,cat:"design",url:"",cover:"linear-gradient(135deg,#1e2a4a,#4a5fc1,#9ab6d8)",tAr:"هوية Random Selection",tEn:"Random Selection Brand",dAr:"هوية بصرية وأعمال موشن جرافيك لعلامة إبداعية شخصية.",dEn:"Visual identity and motion work for a personal creative brand.",tech:["Design","Motion"]},
+    {id:3,cat:"ai",url:"",cover:"linear-gradient(135deg,#2d1b4e,#7c5cbf,#c9b8e8)",tAr:"تجارب الذكاء الاصطناعي",tEn:"AI Experiments",dAr:"استكشافات مع أدوات ونماذج الذكاء الاصطناعي.",dEn:"Explorations with AI tools and models.",tech:["AI","Prompting"]},
+    {id:4,cat:"web",url:"",cover:"linear-gradient(135deg,#0f2027,#2c5364,#7cc4f7)",tAr:"تطبيقات وودجت iOS",tEn:"iOS Apps & Widgets",dAr:"أدوات وودجت لأجهزة iPhone وتجارب SwiftUI.",dEn:"iPhone widgets and SwiftUI experiments.",tech:["Swift","SwiftUI"]},
+    {id:5,cat:"content",url:"",cover:"linear-gradient(135deg,#3a1c2a,#b0486a,#f2a6b8)",tAr:"قصص بصرية متحركة",tEn:"Animated Visual Stories",dAr:"مقاطع قصصية متحركة بأسلوب سينمائي.",dEn:"Animated story clips with a cinematic style.",tech:["Animation"]},
+    {id:6,cat:"personal",url:"",cover:"linear-gradient(135deg,#1a2a1a,#4a7c59,#a8d5ba)",tAr:"أدوات عربية شخصية",tEn:"Arabic Personal Tools",dAr:"تطبيقات عربية أولًا: مدير الحافظة وبطاقات الأذكار.",dEn:"Arabic-first utilities: clipboard manager and dhikr cards.",tech:["PWA","Web"]},
+  ],
+  worldCupCards:[
+    {icon:"📅",ar:"جداول المباريات",en:"Match Schedules"},{icon:"🏳️",ar:"تصاميم المنتخبات",en:"National Team Designs"},
+    {icon:"👻",ar:"فلاتر Snapchat",en:"Snapchat Filters"},{icon:"⚽",ar:"ملخصات المباريات",en:"Match Highlights"},
+    {icon:"🎬",ar:"فيديوهات قصيرة",en:"Short Videos"},{icon:"📊",ar:"توقعات وتحليلات",en:"Predictions & Analysis"},
+    {icon:"🎉",ar:"تصاميم الجماهير",en:"Fan Designs"},{icon:"🏆",ar:"مشاريع مونديال 2026",en:"WC 2026 Projects"},
+  ],
+  gallery:[
+    {g:"linear-gradient(160deg,#1e2a4a,#7cc4f7)",ar:"أجواء تقنية",en:"Tech vibes",img:""},
+    {g:"linear-gradient(160deg,#2d1b4e,#c9b8e8)",ar:"لمسة إبداعية",en:"Creative touch",img:""},
+    {g:"linear-gradient(160deg,#0a3d2e,#88d498)",ar:"شغف المونديال",en:"World Cup passion",img:""},
+    {g:"linear-gradient(160deg,#3a1c2a,#f2a6b8)",ar:"تصوير وتوثيق",en:"Photography",img:""},
+    {g:"linear-gradient(160deg,#0f2027,#4aa8d8)",ar:"تصميم رقمي",en:"Digital design",img:""},
+    {g:"linear-gradient(160deg,#1a2a1a,#a8d5ba)",ar:"لحظات ملهمة",en:"Inspiring moments",img:""},
+    {g:"linear-gradient(160deg,#2a2438,#9d8cd4)",ar:"أفكار مستقبلية",en:"Future ideas",img:""},
+    {g:"linear-gradient(160deg,#33261a,#e0b589)",ar:"تفاصيل ذهبية",en:"Golden details",img:""},
+  ],
+  stats:[
+    {value:100,suffix:"+",ar:"مشروع وفكرة",en:"Projects & Ideas"},
+    {value:50,suffix:"+",ar:"تصميم إبداعي",en:"Creative Designs"},
+    {value:12,suffix:"",ar:"منصة اجتماعية",en:"Social Platforms"},
+    {value:10,suffix:"+",ar:"سنوات من الشغف بالتقنية",en:"Years of Tech Passion"},
+  ],
+  skills:[
+    {ar:"التقنية",en:"Technology",v:92},{ar:"الذكاء الاصطناعي",en:"AI",v:88},
+    {ar:"التصميم",en:"Design",v:90},{ar:"صناعة المحتوى",en:"Content Creation",v:85},
+    {ar:"التفكير الإبداعي",en:"Creative Thinking",v:93},{ar:"التصوير",en:"Photography",v:80},
+    {ar:"إدارة الأفكار والمشاريع",en:"Project & Idea Management",v:86},{ar:"الأعمال الرقمية",en:"Digital Business",v:82},
+  ],
+};
+
+/* ═══════════ UI Translations ═══════════ */
+const UI={
+  nav:{home:{ar:"الرئيسية",en:"Home"},about:{ar:"نبذة عني",en:"About"},interests:{ar:"اهتماماتي",en:"Interests"},projects:{ar:"أعمالي",en:"Projects"},gallery:{ar:"معرض الصور",en:"Gallery"},socials:{ar:"حساباتي",en:"Socials"},contact:{ar:"تواصل معي",en:"Contact"}},
+  hero:{explore:{ar:"استكشف أعمالي",en:"Explore My Work"},socials:{ar:"حساباتي",en:"My Socials"},contact:{ar:"تواصل معي",en:"Contact Me"}},
+  greet:{morning:{ar:"صباح الخير 👋",en:"Good morning 👋"},evening:{ar:"مساء الخير 👋",en:"Good evening 👋"}},
+  sections:{about:{ar:"نبذة عني",en:"About Me"},interests:{ar:"اهتماماتي",en:"My Interests"},projects:{ar:"الأعمال والمشاريع",en:"Projects & Work"},wc:{ar:"World Cup Creative Hub",en:"World Cup Creative Hub"},wcSub:{ar:"تصاميمي ومشاريعي المتعلقة بكأس العالم وكرة القدم",en:"My football & World Cup designs and projects"},gallery:{ar:"معرض الصور",en:"Photo Gallery"},socials:{ar:"تابعني على جميع المنصات",en:"Follow Me Everywhere"},statsNote:{ar:"بيانات مبدئية قابلة للتحديث",en:"Initial figures — updatable"},skills:{ar:"المهارات",en:"Skills"},skillsNote:{ar:"قيم تقديرية شخصية وليست تقييمات رسمية",en:"Personal estimates, not official ratings"},contact:{ar:"تواصل معي",en:"Get In Touch"}},
+  projects:{details:{ar:"التفاصيل",en:"Details"},view:{ar:"عرض المشروع",en:"View Project"},tech:{ar:"التقنيات المستخدمة",en:"Technologies"},soon:{ar:"الرابط سيُضاف قريبًا",en:"Link coming soon"},empty:{ar:"لا توجد مشاريع في هذا التصنيف بعد",en:"No projects in this category yet"}},
+  socials:{visit:{ar:"زيارة الحساب",en:"Visit Profile"},soon:{ar:"قريبًا",en:"Soon"}},
+  form:{name:{ar:"الاسم",en:"Name"},email:{ar:"البريد الإلكتروني",en:"Email"},subject:{ar:"الموضوع",en:"Subject"},message:{ar:"الرسالة",en:"Message"},send:{ar:"إرسال الرسالة",en:"Send Message"},required:{ar:"هذا الحقل مطلوب",en:"This field is required"},invalidEmail:{ar:"بريد إلكتروني غير صحيح",en:"Invalid email address"},mailtoNote:{ar:"سيُفتح تطبيق البريد لديك لإرسال الرسالة",en:"Your mail app will open to send the message"},noEmail:{ar:"أضف بريدك الإلكتروني في ملف البيانات لتفعيل الإرسال",en:"Add your email in the data file to enable sending"}},
+  footer:{made:{ar:"صُنع بشغف للتقنية والإبداع",en:"Crafted with passion for technology & creativity"},rights:{ar:"جميع الحقوق محفوظة",en:"All rights reserved"}},
+  palette:{placeholder:{ar:"ابحث أو انتقل إلى…",en:"Search or jump to…"},sections:{ar:"الأقسام",en:"Sections"},projects:{ar:"المشاريع",en:"Projects"},socialsG:{ar:"الحسابات",en:"Socials"},actions:{ar:"إجراءات",en:"Actions"},toggleLang:{ar:"التبديل إلى English",en:"Switch to العربية"},toggleTheme:{ar:"تبديل الوضع",en:"Toggle theme"},empty:{ar:"لا توجد نتائج",en:"No results"}},
+};
+
+const NAV_ITEMS=[["home",UI.nav.home],["about",UI.nav.about],["interests",UI.nav.interests],["projects",UI.nav.projects],["gallery",UI.nav.gallery],["socials",UI.nav.socials],["contact",UI.nav.contact]];
+const REDUCED=()=>window.matchMedia&&window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* ═══════════ Hooks ═══════════ */
+function useReveal(threshold=0.12){
+  const ref=useRef(null);const[visible,setVisible]=useState(false);
+  useEffect(()=>{const el=ref.current;if(!el)return;const io=new IntersectionObserver(([e])=>{if(e.isIntersecting){setVisible(true);io.disconnect();}},{threshold});io.observe(el);return()=>io.disconnect();},[threshold]);
+  return[ref,visible];
+}
+function Counter({target,suffix,run}){
+  const[n,setN]=useState(0);
+  useEffect(()=>{if(!run)return;if(REDUCED()){setN(target);return;}let s=null,raf;const dur=1600;const step=(ts)=>{if(!s)s=ts;const p=Math.min((ts-s)/dur,1);setN(Math.round(target*(1-Math.pow(1-p,3))));if(p<1)raf=requestAnimationFrame(step);};raf=requestAnimationFrame(step);return()=>cancelAnimationFrame(raf);},[run,target]);
+  return <span>{n}{suffix}</span>;
+}
+
+/* ═══════════ Sub-components (hoisted) ═══════════ */
+function Section({id,eyebrow,title,subtitle,children}){const[ref,on]=useReveal();return(<section id={id} className="section"><div ref={ref} className={`reveal ${on?"on":""}`}>{eyebrow&&<div className="eyebrow"><Sparkles size={14}/> {eyebrow}</div>}{title&&<h2 className="h2">{title}</h2>}{subtitle&&<p className="sub">{subtitle}</p>}{children}</div></section>);}
+
+function SocialCard({s,t}){const Icon=s.icon;const has=!!s.url;return(
+  <a href={has?s.url:undefined} target={has?"_blank":undefined} rel={has?"noopener noreferrer":undefined} aria-disabled={!has} aria-label={`${s.name} — ${s.handle}`} className="glass card-hover" onClick={e=>{if(!has)e.preventDefault();}} style={{borderRadius:24,padding:"22px 16px",textDecoration:"none",display:"flex",flexDirection:"column",alignItems:"center",gap:9,cursor:has?"pointer":"default",opacity:has?1:0.68,position:"relative",overflow:"hidden"}}>
+    <span aria-hidden="true" style={{position:"absolute",top:-30,insetInlineStart:-30,width:90,height:90,borderRadius:"50%",background:s.color,opacity:0.15,filter:"blur(28px)"}}/>
+    <span style={{width:52,height:52,borderRadius:16,display:"flex",alignItems:"center",justifyContent:"center",background:`${s.color}22`,border:`1px solid ${s.color}44`,boxShadow:`0 6px 18px ${s.color}30`}}><Icon size={24} style={{color:s.color}}/></span>
+    <span style={{fontWeight:600,fontSize:15,color:"var(--text)"}}>{s.name}</span>
+    <span style={{fontSize:12.5,color:"var(--text2)",direction:"ltr"}}>{s.handle}</span>
+    <span style={{fontSize:12.5,fontWeight:600,color:has?s.color:"var(--text2)",display:"inline-flex",alignItems:"center",gap:5}}>{has?<>{t(UI.socials.visit)} <ExternalLink size={12}/></>:t(UI.socials.soon)}</span>
+  </a>);
+}
+
+function Dock({t,isAr,goTo,onPalette}){
+  const ref=useRef(null);const[mx,setMx]=useState(null);
+  const items=[{icon:Home,label:t(UI.nav.home),act:()=>goTo("home")},{icon:User,label:t(UI.nav.about),act:()=>goTo("about")},{icon:FolderOpen,label:t(UI.nav.projects),act:()=>goTo("projects")},{icon:Trophy,label:"World Cup",act:()=>goTo("worldcup")},{icon:ImagesIcon,label:t(UI.nav.gallery),act:()=>goTo("gallery")},{icon:Share2,label:t(UI.nav.socials),act:()=>goTo("socials")},{icon:Mail,label:t(UI.nav.contact),act:()=>goTo("contact")},{icon:Command,label:"⌘K",act:onPalette}];
+  return(<nav ref={ref} aria-label={isAr?"شريط تنقل سفلي":"Bottom dock"} className="glass desktop-only" onMouseMove={e=>{if(!REDUCED())setMx(e.clientX);}} onMouseLeave={()=>setMx(null)} style={{position:"fixed",bottom:20,left:"50%",transform:"translateX(-50%)",zIndex:50,borderRadius:26,padding:"12px 18px",display:"flex",gap:8,alignItems:"flex-end"}}>
+    {items.map((it,i)=>{const Icon=it.icon;let sc=1;if(mx!==null&&ref.current){const kids=ref.current.querySelectorAll(".dock-item");const r=kids[i]?.getBoundingClientRect();if(r){const d=Math.abs(mx-(r.left+r.width/2));sc=Math.max(1,1.45-d/130);}}
+      return(<button key={i} className="dock-item" onClick={it.act} aria-label={it.label} style={{background:"none",border:"none",cursor:"pointer",padding:0,transform:`scale(${sc}) translateY(${(sc-1)*-8}px)`}}><span className="dock-label glass" style={{color:"var(--text)"}}>{it.label}</span><span style={{width:44,height:44,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",background:"var(--glass2)",border:"1px solid var(--gborder)",color:"var(--text)"}}><Icon size={20}/></span></button>);
+    })}
+  </nav>);
+}
+
+function CommandPalette({t,isAr,dark,goTo,close,openProject,toggleLang,toggleTheme}){
+  const[q,setQ]=useState("");const inputRef=useRef(null);useEffect(()=>{inputRef.current?.focus();},[]);
+  const ql=q.trim().toLowerCase();
+  const secs=NAV_ITEMS.filter(([,l])=>!ql||l.ar.includes(q)||l.en.toLowerCase().includes(ql));
+  const projs=DATA.projects.filter(p=>!ql||p.tAr.includes(q)||p.tEn.toLowerCase().includes(ql));
+  const socs=DATA.socials.filter(s=>!ql||s.name.toLowerCase().includes(ql));
+  const empty=!secs.length&&!projs.length&&!socs.length;
+  const grp=(label,rows)=>(<div style={{marginBottom:8}}><div style={{fontSize:11.5,fontWeight:700,letterSpacing:".06em",textTransform:"uppercase",color:"var(--text2)",padding:"8px 14px 4px"}}>{label}</div>{rows}</div>);
+  const row=(key,Icon,label,onPick,color)=>(<button key={key} onClick={onPick} className="palette-row" style={{display:"flex",alignItems:"center",gap:12,width:"100%",background:"none",border:"none",cursor:"pointer",padding:"11px 14px",borderRadius:14,color:"var(--text)",fontFamily:"inherit",fontSize:14.5,textAlign:"start"}}><Icon size={17} style={{color:color||"var(--accent)",flexShrink:0}}/><span>{label}</span></button>);
+  return(<div className="modal-bg" onClick={close} role="dialog" aria-modal="true"><div className="glass pop" onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:560,borderRadius:26,overflow:"hidden",maxHeight:"70vh",display:"flex",flexDirection:"column"}}>
+    <div style={{display:"flex",alignItems:"center",gap:10,padding:"16px 18px",borderBottom:"1px solid var(--gborder2)"}}><Search size={18} style={{color:"var(--text2)"}}/><input ref={inputRef} value={q} onChange={e=>setQ(e.target.value)} placeholder={t(UI.palette.placeholder)} style={{flex:1,background:"none",border:"none",outline:"none",fontSize:16,color:"var(--text)",fontFamily:"inherit"}}/><kbd style={{fontSize:11,padding:"3px 8px",borderRadius:7,background:"var(--glass2)",border:"1px solid var(--gborder)",color:"var(--text2)"}}>Esc</kbd></div>
+    <div style={{overflowY:"auto",padding:8}}>
+      {empty&&<div style={{padding:24,textAlign:"center",color:"var(--text2)"}}>{t(UI.palette.empty)}</div>}
+      {secs.length>0&&grp(t(UI.palette.sections),secs.map(([id,l])=>row(id,Layers,t(l),()=>goTo(id))))}
+      {projs.length>0&&grp(t(UI.palette.projects),projs.map(p=>row("p"+p.id,Star,isAr?p.tAr:p.tEn,()=>openProject(p))))}
+      {socs.length>0&&grp(t(UI.palette.socialsG),socs.map(s=>row(s.id,s.icon,s.name,()=>{close();if(s.url)window.open(s.url,"_blank");else goTo("socials");},s.color)))}
+      {!ql&&grp(t(UI.palette.actions),[row("lang",Globe,t(UI.palette.toggleLang),toggleLang),row("theme",dark?Sun:Moon,t(UI.palette.toggleTheme),toggleTheme)])}
+    </div>
+  </div></div>);
+}
+
+function ContactForm({t,isAr}){
+  const[f,setF]=useState({name:"",email:"",subject:"",message:""});const[errs,setErrs]=useState({});const[sent,setSent]=useState(false);
+  const submit=()=>{const e={};if(!f.name.trim())e.name=t(UI.form.required);if(!f.email.trim())e.email=t(UI.form.required);else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))e.email=t(UI.form.invalidEmail);if(!f.subject.trim())e.subject=t(UI.form.required);if(!f.message.trim())e.message=t(UI.form.required);setErrs(e);if(Object.keys(e).length)return;if(DATA.profile.email){const body=encodeURIComponent(f.name+"\n"+f.email+"\n\n"+f.message);window.location.href="mailto:"+DATA.profile.email+"?subject="+encodeURIComponent(f.subject)+"&body="+body;}setSent(true);};
+  const field=(k,label,textarea)=>(<div style={{marginBottom:16}}><label htmlFor={"f-"+k} style={{display:"block",fontSize:13.5,fontWeight:600,marginBottom:7,color:"var(--text2)"}}>{label}</label>{textarea?<textarea id={"f-"+k} className="field" rows={5} value={f[k]} onChange={e=>setF(s=>({...s,[k]:e.target.value}))}/>:<input id={"f-"+k} className="field" type={k==="email"?"email":"text"} value={f[k]} onChange={e=>setF(s=>({...s,[k]:e.target.value}))} dir={k==="email"?"ltr":undefined}/>}{errs[k]&&<div role="alert" style={{display:"flex",alignItems:"center",gap:5,fontSize:12.5,color:"#e57373",marginTop:5}}><AlertCircle size={13}/> {errs[k]}</div>}</div>);
+  return(<div className="glass" style={{borderRadius:28,padding:"clamp(22px,4vw,36px)"}}>{sent?(<div style={{textAlign:"center",padding:"30px 10px"}}><CheckCircle2 size={44} style={{color:"#6bbf8a",marginBottom:14}}/><p style={{fontSize:17,fontWeight:600}}>{DATA.profile.email?t(UI.form.mailtoNote):t(UI.form.noEmail)}</p></div>):(<><div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(210px,1fr))",gap:"0 18px"}}>{field("name",t(UI.form.name))}{field("email",t(UI.form.email))}</div>{field("subject",t(UI.form.subject))}{field("message",t(UI.form.message),true)}<button className="btn btn-primary" onClick={submit}><SendIcon size={16}/> {t(UI.form.send)}</button>{!DATA.profile.email&&<p style={{fontSize:12.5,color:"var(--text2)",marginTop:12}}>💡 {t(UI.form.noEmail)}</p>}</>)}</div>);
+}
+
+const FLOAT_CHIPS=[
+  {icon:Cpu,top:"2%",side:"-8%",delay:0},{icon:Brain,top:"22%",side:"97%",delay:0.8},
+  {icon:AppleIcon,top:"52%",side:"-11%",delay:1.6},{icon:PaletteIcon,top:"74%",side:"99%",delay:2.2},
+  {icon:Clapperboard,top:"92%",side:"4%",delay:0.4},{icon:Camera,top:"-8%",side:"70%",delay:1.2},
+  {icon:Trophy,top:"38%",side:"106%",delay:2.8},{icon:Rocket,top:"98%",side:"76%",delay:1.9},
+];
+
+/* ═══════════ App ═══════════ */
+function App(){
+  const[lang,setLang]=useState("ar");
+  const[dark,setDark]=useState(()=>{try{const s=localStorage.getItem("rz-theme");if(s)return s==="dark";return window.matchMedia("(prefers-color-scheme:dark)").matches;}catch(e){return true;}});
+  const[menuOpen,setMenuOpen]=useState(false);
+  const[scrolled,setScrolled]=useState(false);
+  const[progress,setProgress]=useState(0);
+  const[active,setActive]=useState("home");
+  const[modal,setModal]=useState(null);
+  const[lightbox,setLightbox]=useState(-1);
+  const[filter,setFilter]=useState("all");
+  const[paletteOpen,setPaletteOpen]=useState(false);
+
+  const isAr=lang==="ar";
+  const t=useCallback(o=>o?o[lang]:"",[lang]);
+
+  useEffect(()=>{try{localStorage.setItem("rz-theme",dark?"dark":"light");}catch(e){}},[dark]);
+  useEffect(()=>{try{localStorage.setItem("rz-lang",lang);}catch(e){}},[lang]);
+
+  useEffect(()=>{
+    const ids=["home","about","interests","projects","worldcup","gallery","socials","contact"];
+    let ticking=false;
+    const onScroll=()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{setScrolled(window.scrollY>24);const h=document.documentElement.scrollHeight-window.innerHeight;setProgress(h>0?Math.min(100,(window.scrollY/h)*100):0);let cur="home";for(const id of ids){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=window.innerHeight*0.4)cur=id;}setActive(cur);ticking=false;});};
+    window.addEventListener("scroll",onScroll,{passive:true});onScroll();return()=>window.removeEventListener("scroll",onScroll);
+  },[]);
+
+  useEffect(()=>{
+    const onKey=e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"){e.preventDefault();setPaletteOpen(v=>!v);}if(e.key==="Escape"){setModal(null);setLightbox(-1);setPaletteOpen(false);setMenuOpen(false);}if(lightbox>=0){if(e.key==="ArrowRight")setLightbox(i=>(i+1)%DATA.gallery.length);if(e.key==="ArrowLeft")setLightbox(i=>(i-1+DATA.gallery.length)%DATA.gallery.length);}};
+    window.addEventListener("keydown",onKey);return()=>window.removeEventListener("keydown",onKey);
+  },[lightbox]);
+
+  useEffect(()=>{document.body.style.overflow=(modal||lightbox>=0||paletteOpen||menuOpen)?"hidden":"";return()=>{document.body.style.overflow="";};},[modal,lightbox,paletteOpen,menuOpen]);
+
+  const goTo=useCallback(id=>{setMenuOpen(false);setPaletteOpen(false);const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:REDUCED()?"auto":"smooth",block:"start"});},[]);
+
+  const hour=new Date().getHours();
+  const greeting=hour>=4&&hour<12?t(UI.greet.morning):t(UI.greet.evening);
+  const year=new Date().getFullYear();
+  const filteredProjects=useMemo(()=>filter==="all"?DATA.projects:DATA.projects.filter(p=>p.cat===filter),[filter]);
+  const catName=useCallback(id=>t(DATA.projectCategories.find(c=>c.id===id)||DATA.projectCategories[0]),[t]);
+
+  const heroCardRef=useRef(null);
+  const onHeroMove=e=>{const el=heroCardRef.current;if(!el||REDUCED())return;const r=el.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-0.5;const y=(e.clientY-r.top)/r.height-0.5;el.style.transform=`perspective(900px) rotateY(${x*7}deg) rotateX(${-y*7}deg)`;};
+  const onHeroLeave=()=>{if(heroCardRef.current)heroCardRef.current.style.transform="";};
+
+  const[statsRef,statsOn]=useReveal(0.3);
+  const[skillsRef,skillsOn]=useReveal(0.3);
+
+  const css=`
+    :root{color-scheme:${dark?"dark":"light"}}
+    .rz-root{
+      --bg:${dark?"#0a0c10":"#f4f6f9"};--text:${dark?"#f2f5f9":"#14181f"};--text2:${dark?"rgba(228,234,242,.62)":"rgba(24,30,40,.6)"};
+      --glass:${dark?"rgba(255,255,255,.055)":"rgba(255,255,255,.55)"};--glass2:${dark?"rgba(255,255,255,.1)":"rgba(255,255,255,.8)"};
+      --gborder:${dark?"rgba(255,255,255,.12)":"rgba(255,255,255,.9)"};--gborder2:${dark?"rgba(255,255,255,.2)":"rgba(20,30,50,.1)"};
+      --accent:${dark?"#7cc4f7":"#2f6fb5"};--accent2:${dark?"#9d8cd4":"#6a5bb8"};
+      --shadow:${dark?"0 18px 50px rgba(0,0,0,.45)":"0 18px 50px rgba(40,60,100,.14)"};
+      --shadow-sm:${dark?"0 8px 24px rgba(0,0,0,.35)":"0 8px 24px rgba(40,60,100,.1)"};
+      font-family:${isAr?"'IBM Plex Sans Arabic'":"'Inter'"},'Inter','IBM Plex Sans Arabic',system-ui,sans-serif;
+      background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;transition:background .5s ease,color .5s ease;line-height:1.7;
+    }
+    .glass{background:var(--glass);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid var(--gborder);box-shadow:var(--shadow-sm),inset 0 1px 0 ${dark?"rgba(255,255,255,.08)":"rgba(255,255,255,.9)"};}
+    .orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:${dark?".32":".42"};pointer-events:none;z-index:0}
+    @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-50px) scale(1.12)}}
+    @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,60px) scale(.92)}}
+    @keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,40px)}}
+    @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes popIn{from{opacity:0;transform:scale(.94) translateY(14px)}to{opacity:1;transform:none}}
+    .noise::after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+    .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.on{opacity:1;transform:none}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;border-radius:18px;padding:13px 24px;font-size:15px;font-weight:600;font-family:inherit;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .25s}.btn:active{transform:scale(.96)}
+    .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 8px 24px ${dark?"rgba(124,196,247,.28)":"rgba(47,111,181,.3)"}}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px ${dark?"rgba(124,196,247,.4)":"rgba(47,111,181,.42)"}}
+    .btn-glass{color:var(--text)}.btn-glass:hover{transform:translateY(-2px);background:var(--glass2)}
+    .card-hover{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}.card-hover:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+    .navlink{background:none;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--text2);padding:8px 13px;border-radius:99px;transition:color .25s,background .25s;white-space:nowrap}.navlink:hover{color:var(--text)}.navlink.active{color:var(--text);background:var(--glass2)}
+    .iconbtn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;border:1px solid var(--gborder);background:var(--glass);color:var(--text);cursor:pointer;transition:transform .25s,background .25s;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.iconbtn:hover{transform:translateY(-2px);background:var(--glass2)}.iconbtn:active{transform:scale(.94)}
+    input.field,textarea.field{width:100%;padding:14px 16px;border-radius:16px;font-family:inherit;font-size:15px;background:var(--glass);border:1px solid var(--gborder2);color:var(--text);outline:none;transition:border .25s,box-shadow .25s;resize:vertical;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+    input.field:focus,textarea.field:focus{border-color:var(--accent);box-shadow:0 0 0 4px ${dark?"rgba(124,196,247,.15)":"rgba(47,111,181,.14)"}}
+    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .section{position:relative;z-index:2;max-width:1160px;margin:0 auto;padding:90px 22px 30px}
+    .h2{font-size:clamp(28px,4.5vw,44px);font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+    .sub{color:var(--text2);font-size:16px;max-width:640px;margin-bottom:38px}
+    .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+    .modal-bg{position:fixed;inset:0;z-index:80;background:${dark?"rgba(5,7,10,.7)":"rgba(230,236,244,.6)"};backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+    .pop{animation:popIn .38s cubic-bezier(.2,.7,.2,1)}
+    .palette-row{transition:background .2s}.palette-row:hover{background:var(--glass2)}
+    .skillbar{height:10px;border-radius:99px;background:${dark?"rgba(255,255,255,.08)":"rgba(20,30,50,.08)"};overflow:hidden}
+    .skillfill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+    .dock-item{display:flex;flex-direction:column;align-items:center;transition:transform .18s cubic-bezier(.2,.7,.2,1);position:relative}
+    .dock-label{position:absolute;top:-36px;font-size:11.5px;padding:4px 10px;border-radius:9px;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}.dock-item:hover .dock-label{opacity:1}
+    .float-chip{animation:floaty 5.5s ease-in-out infinite}
+    .gal-img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}button:hover .gal-img{transform:scale(1.06)}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}.reveal{opacity:1;transform:none}}
+    @media(max-width:1023px){.desktop-only{display:none!important}}
+    @media(min-width:1024px){.mobile-only{display:none!important}}
+  `;
+
+  return(
+  <div className="rz-root noise" dir={isAr?"rtl":"ltr"} lang={lang}>
+    <style>{css}</style>
+    <div className="orb" style={{width:480,height:480,top:"-8%",insetInlineStart:"-10%",background:dark?"#1a3a5c":"#a8cef0",animation:"drift1 26s ease-in-out infinite"}} aria-hidden="true"/>
+    <div className="orb" style={{width:420,height:420,top:"35%",insetInlineEnd:"-12%",background:dark?"#2d2450":"#c9bce8",animation:"drift2 32s ease-in-out infinite"}} aria-hidden="true"/>
+    <div className="orb" style={{width:380,height:380,bottom:"-10%",insetInlineStart:"30%",background:dark?"#123a3a":"#a8dcd0",animation:"drift3 38s ease-in-out infinite"}} aria-hidden="true"/>
+    <div aria-hidden="true" style={{position:"fixed",top:0,insetInlineStart:0,height:3,width:`${progress}%`,background:"linear-gradient(90deg,var(--accent),var(--accent2))",zIndex:60,borderRadius:99}}/>
+
+    {/* Navbar */}
+    <header className="glass" style={{position:"fixed",top:scrolled?10:18,left:"50%",transform:"translateX(-50%)",zIndex:55,borderRadius:22,width:"min(96%,1080px)",padding:scrolled?"8px 16px":"12px 18px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,transition:"top .35s ease,padding .35s ease"}}>
+      <button onClick={()=>goTo("home")} style={{background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:10,fontFamily:"inherit",padding:0}} aria-label={t(UI.nav.home)}>
+        <span style={{width:36,height:36,borderRadius:12,background:"linear-gradient(135deg,var(--accent),var(--accent2))",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:14,fontFamily:"'Inter',sans-serif",boxShadow:"0 4px 14px rgba(100,140,220,.35)"}} aria-hidden="true">RA</span>
+        <span style={{fontWeight:700,fontSize:15.5,color:"var(--text)",whiteSpace:"nowrap"}}>{isAr?DATA.profile.nameAr:DATA.profile.nameEn}</span>
+      </button>
+      <nav className="desktop-only" aria-label={isAr?"التنقل الرئيسي":"Main navigation"} style={{display:"flex",gap:2}}>{NAV_ITEMS.map(([id,l])=><button key={id} className={`navlink ${active===id?"active":""}`} onClick={()=>goTo(id)} aria-current={active===id?"true":undefined}>{t(l)}</button>)}</nav>
+      <div style={{display:"flex",gap:8,alignItems:"center"}}>
+        <button className="iconbtn desktop-only" onClick={()=>setPaletteOpen(true)} aria-label="⌘K" title="⌘K"><Command size={17}/></button>
+        <button className="iconbtn" onClick={()=>setLang(l=>l==="ar"?"en":"ar")} aria-label={isAr?"Switch to English":"التبديل إلى العربية"}><span style={{fontSize:12.5,fontWeight:700}}>{isAr?"EN":"ع"}</span></button>
+        <button className="iconbtn" onClick={()=>setDark(d=>!d)} aria-label={dark?(isAr?"الوضع الفاتح":"Light mode"):(isAr?"الوضع الداكن":"Dark mode")}>{dark?<Sun size={17}/>:<Moon size={17}/>}</button>
+        <button className="iconbtn mobile-only" onClick={()=>setMenuOpen(v=>!v)} aria-label={menuOpen?(isAr?"إغلاق القائمة":"Close menu"):(isAr?"فتح القائمة":"Open menu")} aria-expanded={menuOpen}>{menuOpen?<XIcon size={18}/>:<MenuIcon size={18}/>}</button>
+      </div>
+    </header>
+
+    {/* Mobile menu */}
+    {menuOpen&&<div className="modal-bg mobile-only" style={{alignItems:"flex-start",paddingTop:90}} onClick={()=>setMenuOpen(false)}><nav className="glass pop" aria-label={isAr?"قائمة الجوال":"Mobile menu"} onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:420,borderRadius:26,padding:14,display:"flex",flexDirection:"column",gap:4}}>{NAV_ITEMS.map(([id,l])=><button key={id} onClick={()=>goTo(id)} className={`navlink ${active===id?"active":""}`} style={{fontSize:16,padding:"14px 18px",textAlign:"start",width:"100%"}}>{t(l)}</button>)}</nav></div>}
+
+    {/* Hero */}
+    <section id="home" style={{position:"relative",zIndex:2,minHeight:"100vh",display:"flex",alignItems:"center",padding:"130px 22px 60px"}}>
+      <div style={{maxWidth:1160,margin:"0 auto",width:"100%",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(290px,1fr))",gap:50,alignItems:"center"}}>
+        <div>
+          <div className="eyebrow"><Sparkles size={14}/> {greeting}</div>
+          <h1 style={{fontSize:"clamp(38px,6.5vw,66px)",fontWeight:700,letterSpacing:"-.025em",lineHeight:1.15,marginBottom:6}}>{isAr?DATA.profile.nameAr:DATA.profile.nameEn}</h1>
+          <p style={{fontSize:"clamp(17px,2.5vw,22px)",color:"var(--text2)",fontWeight:500,marginBottom:4}} dir={isAr?"ltr":"rtl"}>{isAr?DATA.profile.nameEn:DATA.profile.nameAr}</p>
+          <p style={{direction:"ltr",textAlign:isAr?"right":"left",fontSize:15.5,fontWeight:600,marginBottom:20,background:"linear-gradient(90deg,var(--accent),var(--accent2))",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{DATA.profile.handle}</p>
+          <p style={{fontSize:16.5,color:"var(--text2)",maxWidth:520,marginBottom:30}}>{isAr?DATA.profile.taglineAr:DATA.profile.taglineEn}</p>
+          <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+            <button className="btn btn-primary" onClick={()=>goTo("projects")}><Rocket size={16}/> {t(UI.hero.explore)}</button>
+            <button className="btn btn-glass glass" onClick={()=>goTo("socials")}><Share2 size={16}/> {t(UI.hero.socials)}</button>
+            <button className="btn btn-glass glass" onClick={()=>goTo("contact")}><Mail size={16}/> {t(UI.hero.contact)}</button>
+          </div>
+        </div>
+        {/* Profile card */}
+        <div style={{display:"flex",justifyContent:"center",position:"relative",padding:"30px 0"}}>
+          <div style={{position:"relative",width:"min(310px,76vw)"}}>
+            {FLOAT_CHIPS.map((c,i)=>{const Icon=c.icon;return(<span key={i} className="glass float-chip desktop-only" aria-hidden="true" style={{position:"absolute",top:c.top,insetInlineStart:c.side,width:44,height:44,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",zIndex:3,animationDelay:c.delay+"s",color:"var(--accent)"}}><Icon size={19}/></span>);})}
+            <div ref={heroCardRef} className="glass" onMouseMove={onHeroMove} onMouseLeave={onHeroLeave} style={{borderRadius:36,padding:26,textAlign:"center",transition:"transform .25s ease",willChange:"transform"}}>
+              {DATA.profile.photoUrl?<img src={DATA.profile.photoUrl} alt={isAr?DATA.profile.nameAr:DATA.profile.nameEn} loading="lazy" style={{width:"100%",aspectRatio:"1",objectFit:"cover",borderRadius:26,marginBottom:18,display:"block"}}/>:
+              <div aria-hidden="true" style={{width:"100%",aspectRatio:"1",borderRadius:26,marginBottom:18,display:"flex",alignItems:"center",justifyContent:"center",background:dark?"linear-gradient(140deg,#16233a,#2a2450,#0f2c34)":"linear-gradient(140deg,#dce9f7,#e6e0f5,#d5eef0)",position:"relative",overflow:"hidden"}}>
+                <span style={{position:"absolute",inset:0,background:"linear-gradient(110deg,transparent 30%,rgba(255,255,255,.14) 48%,transparent 62%)",backgroundSize:"200% 100%",animation:"shimmer 4.5s linear infinite"}}/>
+                <span style={{fontSize:84,fontWeight:800,fontFamily:"'Inter',sans-serif",letterSpacing:"-.04em",background:"linear-gradient(135deg,var(--accent),var(--accent2))",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>RA</span>
+              </div>}
+              <div style={{fontWeight:700,fontSize:19}}>{isAr?DATA.profile.nameAr:DATA.profile.nameEn}</div>
+              <div style={{fontSize:13.5,color:"var(--text2)",marginTop:4}}>📍 {isAr?DATA.profile.locationAr:DATA.profile.locationEn}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* About */}
+    <Section id="about" eyebrow={isAr?"من أنا":"Who I am"} title={t(UI.sections.about)}>
+      <div className="glass" style={{borderRadius:28,padding:"clamp(22px,4vw,36px)",marginBottom:26}}><p style={{fontSize:17,lineHeight:1.9}}>{isAr?DATA.profile.aboutAr:DATA.profile.aboutEn}</p></div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:12}}>
+        {DATA.interests.slice(0,8).map((it,i)=>{const Icon=it.icon;return(<div key={i} className="glass card-hover" style={{borderRadius:18,padding:"16px 14px",display:"flex",alignItems:"center",gap:10}}><Icon size={18} style={{color:"var(--accent)",flexShrink:0}}/><span style={{fontSize:13.5,fontWeight:600}}>{isAr?it.ar:it.en}</span></div>);})}
+      </div>
+    </Section>
+
+    {/* Interests */}
+    <Section id="interests" eyebrow={isAr?"ما يلهمني":"What inspires me"} title={t(UI.sections.interests)}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(230px,1fr))",gap:16}}>
+        {DATA.interests.map((it,i)=>{const Icon=it.icon;return(<div key={i} className="glass card-hover" style={{borderRadius:24,padding:22,position:"relative",overflow:"hidden"}}><span aria-hidden="true" style={{position:"absolute",top:-24,insetInlineEnd:-24,width:80,height:80,borderRadius:"50%",background:"var(--accent)",opacity:0.09,filter:"blur(20px)"}}/><span style={{width:46,height:46,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",background:dark?"rgba(124,196,247,.12)":"rgba(47,111,181,.1)",marginBottom:14}}><Icon size={21} style={{color:"var(--accent)"}}/></span><div style={{fontWeight:700,fontSize:15.5,marginBottom:5}}>{isAr?it.ar:it.en}</div><div style={{fontSize:13.5,color:"var(--text2)"}}>{isAr?it.dAr:it.dEn}</div></div>);})}
+      </div>
+    </Section>
+
+    {/* Projects */}
+    <Section id="projects" eyebrow={isAr?"ما أعمل عليه":"What I build"} title={t(UI.sections.projects)}>
+      <div role="tablist" style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:26}}>
+        {DATA.projectCategories.map(c=><button key={c.id} role="tab" aria-selected={filter===c.id} onClick={()=>setFilter(c.id)} style={{border:filter===c.id?"1px solid var(--accent)":"1px solid var(--gborder)",cursor:"pointer",borderRadius:99,padding:"8px 16px",fontSize:13,fontWeight:600,fontFamily:"inherit",color:filter===c.id?"var(--accent)":"var(--text2)",background:filter===c.id?(dark?"rgba(124,196,247,.1)":"rgba(47,111,181,.08)"):"var(--glass)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",transition:"all .25s"}}>{t(c)}</button>)}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))",gap:20}}>
+        {filteredProjects.length===0&&<div className="glass" style={{borderRadius:22,padding:30,color:"var(--text2)",gridColumn:"1/-1",textAlign:"center"}}><Filter size={22} style={{marginBottom:8}}/><div>{t(UI.projects.empty)}</div></div>}
+        {filteredProjects.map(p=><article key={p.id} className="glass card-hover" style={{borderRadius:26,overflow:"hidden",display:"flex",flexDirection:"column"}}>
+          <div aria-hidden="true" style={{height:150,background:p.cover,position:"relative"}}><span style={{position:"absolute",bottom:10,insetInlineStart:12,fontSize:11.5,fontWeight:700,padding:"4px 12px",borderRadius:99,background:"rgba(0,0,0,.35)",color:"#fff",backdropFilter:"blur(8px)"}}>{catName(p.cat)}</span></div>
+          <div style={{padding:20,display:"flex",flexDirection:"column",gap:10,flex:1}}>
+            <h3 style={{fontSize:17,fontWeight:700}}>{isAr?p.tAr:p.tEn}</h3>
+            <p style={{fontSize:13.5,color:"var(--text2)",flex:1}}>{isAr?p.dAr:p.dEn}</p>
+            <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{p.tech.map(tt=><span key={tt} style={{fontSize:11,fontWeight:600,padding:"3px 10px",borderRadius:99,background:"var(--glass2)",border:"1px solid var(--gborder)",color:"var(--text2)",direction:"ltr"}}>{tt}</span>)}</div>
+            <button className="btn btn-primary" style={{padding:"9px 16px",fontSize:13,borderRadius:13,justifyContent:"center",marginTop:6}} onClick={()=>setModal(p)}>{t(UI.projects.details)}</button>
+          </div>
+        </article>)}
+      </div>
+    </Section>
+
+    {/* World Cup Hub */}
+    <Section id="worldcup" eyebrow="⚽ Football" title={t(UI.sections.wc)} subtitle={t(UI.sections.wcSub)}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))",gap:14}}>
+        {DATA.worldCupCards.map((c,i)=><div key={i} className="glass card-hover" style={{borderRadius:22,padding:"24px 18px",textAlign:"center",position:"relative",overflow:"hidden"}}><span aria-hidden="true" style={{position:"absolute",bottom:-20,insetInlineStart:"50%",marginInlineStart:-50,width:100,height:60,borderRadius:"50%",background:"#1a936f",opacity:0.13,filter:"blur(22px)"}}/><div style={{fontSize:34,marginBottom:10}} aria-hidden="true">{c.icon}</div><div style={{fontWeight:700,fontSize:14.5}}>{isAr?c.ar:c.en}</div></div>)}
+      </div>
+    </Section>
+
+    {/* Gallery */}
+    <Section id="gallery" eyebrow={isAr?"لقطات":"Snapshots"} title={t(UI.sections.gallery)}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(210px,1fr))",gap:14}}>
+        {DATA.gallery.map((g,i)=><button key={i} onClick={()=>setLightbox(i)} aria-label={(isAr?g.ar:g.en)} style={{border:"none",padding:0,cursor:"zoom-in",borderRadius:22,overflow:"hidden",aspectRatio:"4/3",position:"relative",background:"none"}}>
+          {g.img?<img src={g.img} alt={isAr?g.ar:g.en} loading="lazy" className="gal-img" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>:<span aria-hidden="true" className="gal-img" style={{position:"absolute",inset:0,background:g.g,display:"block"}}/>}
+          <span style={{position:"absolute",bottom:10,insetInlineStart:12,fontSize:12.5,fontWeight:600,color:"#fff",padding:"4px 12px",borderRadius:99,background:"rgba(0,0,0,.35)",backdropFilter:"blur(8px)"}}>{isAr?g.ar:g.en}</span>
+        </button>)}
+      </div>
+    </Section>
+
+    {/* Stats */}
+    <section className="section">
+      <div ref={statsRef} className={`reveal ${statsOn?"on":""}`}>
+        <div className="glass" style={{borderRadius:30,padding:"clamp(26px,5vw,44px)",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))",gap:26,textAlign:"center"}}>
+          {DATA.stats.map((s,i)=><div key={i}><div style={{fontSize:"clamp(34px,5vw,48px)",fontWeight:800,fontFamily:"'Inter',sans-serif",letterSpacing:"-.03em",background:"linear-gradient(135deg,var(--accent),var(--accent2))",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}} dir="ltr"><Counter target={s.value} suffix={s.suffix} run={statsOn}/></div><div style={{fontSize:13.5,color:"var(--text2)",fontWeight:600,marginTop:4}}>{isAr?s.ar:s.en}</div></div>)}
+          <div style={{gridColumn:"1/-1",fontSize:12,color:"var(--text2)"}}>ℹ️ {t(UI.sections.statsNote)}</div>
+        </div>
+      </div>
+    </section>
+
+    {/* Skills */}
+    <Section eyebrow={isAr?"نقاط القوة":"Strengths"} title={t(UI.sections.skills)} subtitle={t(UI.sections.skillsNote)}>
+      <div ref={skillsRef} style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:"16px 34px"}}>
+        {DATA.skills.map((s,i)=><div key={i}><div style={{display:"flex",justifyContent:"space-between",marginBottom:7,fontSize:13.5,fontWeight:600}}><span>{isAr?s.ar:s.en}</span><span style={{color:"var(--text2)"}} dir="ltr">{s.v}%</span></div><div className="skillbar" role="progressbar" aria-valuenow={s.v} aria-valuemin={0} aria-valuemax={100}><div className="skillfill" style={{width:skillsOn?s.v+"%":"0%"}}/></div></div>)}
+      </div>
+    </Section>
+
+    {/* Socials */}
+    <Section id="socials" eyebrow="@abu00salman" title={t(UI.sections.socials)}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(155px,1fr))",gap:14}}>
+        {DATA.socials.map(s=><SocialCard key={s.id} s={s} t={t}/>)}
+      </div>
+    </Section>
+
+    {/* Contact */}
+    <Section id="contact" eyebrow={isAr?"لنتحدث":"Let's talk"} title={t(UI.sections.contact)}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(290px,1fr))",gap:24}}>
+        <ContactForm t={t} isAr={isAr}/>
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          {["email","whatsapp","telegram","snapchat"].map(id=>{const s=DATA.socials.find(x=>x.id===id);if(!s)return null;const Icon=s.icon;const has=!!s.url;return(
+            <a key={id} href={has?s.url:undefined} target={has?"_blank":undefined} rel={has?"noopener noreferrer":undefined} onClick={e=>{if(!has)e.preventDefault();}} aria-disabled={!has} className="glass card-hover" style={{borderRadius:20,padding:"18px 20px",display:"flex",alignItems:"center",gap:14,textDecoration:"none",color:"var(--text)",opacity:has?1:0.68,cursor:has?"pointer":"default"}}>
+              <span style={{width:44,height:44,borderRadius:13,display:"flex",alignItems:"center",justifyContent:"center",background:s.color+"22",border:"1px solid "+s.color+"44",flexShrink:0}}><Icon size={20} style={{color:s.color}}/></span>
+              <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontWeight:700,fontSize:15}}>{s.name}</span><span style={{display:"block",fontSize:12.5,color:"var(--text2)",direction:"ltr",textAlign:isAr?"right":"left"}}>{s.handle}</span></span>
+              {has?<ExternalLink size={16} style={{color:"var(--text2)"}}/>:<span style={{fontSize:11.5,color:"var(--text2)",fontWeight:600}}>{t(UI.socials.soon)}</span>}
+            </a>);})}
+        </div>
+      </div>
+    </Section>
+
+    {/* Footer */}
+    <footer style={{position:"relative",zIndex:2,maxWidth:1160,margin:"60px auto 0",padding:"0 22px 130px"}}>
+      <div className="glass" style={{borderRadius:28,padding:"34px 26px",textAlign:"center"}}>
+        <div style={{fontWeight:700,fontSize:17,marginBottom:4}}>{DATA.profile.nameAr} — <span style={{fontFamily:"'Inter',sans-serif"}}>{DATA.profile.nameEn}</span></div>
+        <div style={{fontSize:14,fontWeight:600,marginBottom:10,background:"linear-gradient(90deg,var(--accent),var(--accent2))",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",direction:"ltr"}}>{DATA.profile.handle}</div>
+        <div style={{fontSize:13.5,color:"var(--text2)",marginBottom:4}}>{t(UI.footer.made)} 🤍</div>
+        <div style={{fontSize:12.5,color:"var(--text2)"}}>© {year} — {t(UI.footer.rights)}</div>
+      </div>
+    </footer>
+
+    <Dock t={t} isAr={isAr} goTo={goTo} onPalette={()=>setPaletteOpen(true)}/>
+
+    {scrolled&&<button className="iconbtn" onClick={()=>goTo("home")} aria-label={isAr?"العودة إلى الأعلى":"Back to top"} style={{position:"fixed",bottom:24,insetInlineEnd:20,zIndex:50,width:46,height:46,borderRadius:16}}><ArrowUp size={19}/></button>}
+
+    {/* Project modal */}
+    {modal&&<div className="modal-bg" onClick={()=>setModal(null)} role="dialog" aria-modal="true"><div className="glass pop" onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:620,borderRadius:30,overflow:"hidden auto",maxHeight:"85vh"}}>
+      <div style={{height:190,background:modal.cover,position:"relative"}} aria-hidden="true"><button className="iconbtn" onClick={()=>setModal(null)} aria-label={isAr?"إغلاق":"Close"} style={{position:"absolute",top:14,insetInlineEnd:14}}><XIcon size={17}/></button></div>
+      <div style={{padding:"clamp(20px,4vw,30px)"}}>
+        <span style={{fontSize:11.5,fontWeight:700,padding:"4px 12px",borderRadius:99,background:"var(--glass2)",border:"1px solid var(--gborder)",color:"var(--accent)"}}>{catName(modal.cat)}</span>
+        <h3 style={{fontSize:24,fontWeight:700,margin:"14px 0 10px"}}>{isAr?modal.tAr:modal.tEn}</h3>
+        <p style={{fontSize:15,color:"var(--text2)",marginBottom:18}}>{isAr?modal.dAr:modal.dEn}</p>
+        <div style={{fontSize:12.5,fontWeight:700,color:"var(--text2)",marginBottom:8}}>{t(UI.projects.tech)}</div>
+        <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:22}}>{modal.tech.map(tt=><span key={tt} style={{fontSize:12,fontWeight:600,padding:"5px 13px",borderRadius:99,background:"var(--glass2)",border:"1px solid var(--gborder)",direction:"ltr"}}>{tt}</span>)}</div>
+        {modal.url?<a className="btn btn-primary" href={modal.url} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}><ExternalLink size={15}/> {t(UI.projects.view)}</a>:<button className="btn btn-glass glass" disabled style={{opacity:0.6,cursor:"default"}}><ExternalLink size={15}/> {t(UI.projects.soon)}</button>}
+      </div>
+    </div></div>}
+
+    {/* Lightbox */}
+    {lightbox>=0&&<div className="modal-bg" onClick={()=>setLightbox(-1)} role="dialog" aria-modal="true"><div className="pop" onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:780,position:"relative"}}>
+      <div style={{borderRadius:28,overflow:"hidden",aspectRatio:"16/10",boxShadow:"var(--shadow)",position:"relative"}}>
+        {DATA.gallery[lightbox].img?<img src={DATA.gallery[lightbox].img} alt={isAr?DATA.gallery[lightbox].ar:DATA.gallery[lightbox].en} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>:<div aria-hidden="true" style={{position:"absolute",inset:0,background:DATA.gallery[lightbox].g}}/>}
+        <div style={{position:"absolute",bottom:0,insetInline:0,padding:"40px 20px 18px",background:"linear-gradient(transparent,rgba(0,0,0,.55))",color:"#fff",fontWeight:600,fontSize:15}}>{isAr?DATA.gallery[lightbox].ar:DATA.gallery[lightbox].en}<span style={{opacity:0.7,fontSize:12.5,marginInlineStart:10}} dir="ltr">{lightbox+1} / {DATA.gallery.length}</span></div>
+      </div>
+      <button className="iconbtn" onClick={()=>setLightbox(-1)} aria-label={isAr?"إغلاق":"Close"} style={{position:"absolute",top:14,insetInlineEnd:14}}><XIcon size={17}/></button>
+      <button className="iconbtn" onClick={()=>setLightbox(i=>(i-1+DATA.gallery.length)%DATA.gallery.length)} aria-label={isAr?"السابق":"Previous"} style={{position:"absolute",top:"50%",left:10,transform:"translateY(-50%)"}}><ChevronLeft size={19}/></button>
+      <button className="iconbtn" onClick={()=>setLightbox(i=>(i+1)%DATA.gallery.length)} aria-label={isAr?"التالي":"Next"} style={{position:"absolute",top:"50%",right:10,transform:"translateY(-50%)"}}><ChevronRight size={19}/></button>
+    </div></div>}
+
+    {paletteOpen&&<CommandPalette t={t} isAr={isAr} dark={dark} goTo={goTo} close={()=>setPaletteOpen(false)} openProject={p=>{setPaletteOpen(false);setModal(p);}} toggleLang={()=>{setLang(l=>l==="ar"?"en":"ar");setPaletteOpen(false);}} toggleTheme={()=>{setDark(d=>!d);setPaletteOpen(false);}}/>}
+  </div>);
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
