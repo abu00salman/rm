@@ -166,7 +166,7 @@ const UI={
   socials:{visit:{ar:"زيارة الحساب",en:"Visit Profile"},soon:{ar:"قريبًا",en:"Soon"}},
   form:{name:{ar:"الاسم",en:"Name"},email:{ar:"البريد الإلكتروني",en:"Email"},subject:{ar:"الموضوع",en:"Subject"},message:{ar:"الرسالة",en:"Message"},send:{ar:"إرسال الرسالة",en:"Send Message"},required:{ar:"هذا الحقل مطلوب",en:"This field is required"},invalidEmail:{ar:"بريد إلكتروني غير صحيح",en:"Invalid email address"},mailtoNote:{ar:"سيُفتح تطبيق البريد لديك لإرسال الرسالة",en:"Your mail app will open to send the message"},noEmail:{ar:"أضف بريدك الإلكتروني في ملف البيانات لتفعيل الإرسال",en:"Add your email in the data file to enable sending"}},
   footer:{made:{ar:"صُنع بشغف للتقنية والإبداع",en:"Crafted with passion for technology & creativity"},rights:{ar:"جميع الحقوق محفوظة",en:"All rights reserved"}},
-  theme:{dark:{ar:"التبديل إلى الوضع الفاتح",en:"Switch to Light"},light:{ar:"التبديل إلى الأبيض والأسود",en:"Switch to Mono"},mono:{ar:"التبديل إلى الوضع الداكن",en:"Switch to Dark"}},
+  theme:{dark:{ar:"التبديل إلى الوضع الفاتح",en:"Switch to Light"},light:{ar:"التبديل إلى الوضع الورقي",en:"Switch to Paper"},mono:{ar:"التبديل إلى الوضع الداكن",en:"Switch to Dark"}},
   monoPills:[{ar:"تقنية",en:"Technology"},{ar:"ذكاء اصطناعي",en:"AI"},{ar:"تصميم",en:"Design"},{ar:"رياضة",en:"Sports"}],
   palette:{placeholder:{ar:"ابحث أو انتقل إلى…",en:"Search or jump to…"},sections:{ar:"الأقسام",en:"Sections"},projects:{ar:"المشاريع",en:"Projects"},socialsG:{ar:"الحسابات",en:"Socials"},actions:{ar:"إجراءات",en:"Actions"},toggleLang:{ar:"التبديل إلى English",en:"Switch to العربية"},toggleTheme:{ar:"تبديل الوضع",en:"Toggle theme"},empty:{ar:"لا توجد نتائج",en:"No results"}},
 };
@@ -342,7 +342,7 @@ function App(){
     @media(max-width:1023px){.desktop-only{display:none!important}}
     @media(min-width:1024px){.mobile-only{display:none!important}}
 
-    /* ══════════ النمط الثالث: أبيض وأسود (Mono) ══════════ */
+    /* ══════════ النمط الثالث: ورقي (Paper) — خلفية كريمية دافئة وأزرار سوداء صلبة، ملهم من abdulrzaq.com ══════════ */
     .mono{
       --bg:#EFEEEA;--text:#0B0B0B;--text2:rgba(11,11,11,.52);
       --glass:#FFFFFF;--glass2:#F4F3EF;
@@ -367,8 +367,6 @@ function App(){
     .mono .navlink.active{background:rgba(11,11,11,.06)}
     .mono .skillfill{background:#0B0B0B}
     .mono .skillbar{background:rgba(11,11,11,.09)}
-    .mono .social-card{filter:grayscale(1)}
-    .mono .cover{filter:grayscale(1) contrast(.95)}
     .mono .wc-glow{background:#0B0B0B!important;opacity:.05!important}
     .mono .float-chip{background:#fff;border:1px solid var(--gborder);color:#0B0B0B}
     .mono .modal-bg{background:rgba(239,238,234,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
