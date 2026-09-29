@@ -190,19 +190,9 @@ function Counter({target,suffix,run}){
 /* ═══════════ Sub-components (hoisted) ═══════════ */
 function Section({id,eyebrow,title,subtitle,children}){const[ref,on]=useReveal();return(<section id={id} className="section"><div ref={ref} className={`reveal ${on?"on":""}`}>{eyebrow&&<div className="eyebrow"><Sparkles size={14}/> {eyebrow}</div>}{title&&<h2 className="h2">{title}</h2>}{subtitle&&<p className="sub">{subtitle}</p>}{children}</div></section>);}
 
-function SocialCard({s,t}){const Icon=s.icon;const has=!!s.url;return(
-  <a href={has?s.url:undefined} target={has?"_blank":undefined} rel={has?"noopener noreferrer":undefined} aria-disabled={!has} aria-label={`${s.name} — ${s.handle}`} className="glass card-hover social-card" onClick={e=>{if(!has)e.preventDefault();}} style={{borderRadius:24,padding:"22px 16px",textDecoration:"none",display:"flex",flexDirection:"column",alignItems:"center",gap:9,cursor:has?"pointer":"default",opacity:has?1:0.68,position:"relative",overflow:"hidden"}}>
-    <span aria-hidden="true" style={{position:"absolute",top:-30,insetInlineStart:-30,width:90,height:90,borderRadius:"50%",background:s.color,opacity:0.15,filter:"blur(28px)"}}/>
-    <span style={{width:52,height:52,borderRadius:16,display:"flex",alignItems:"center",justifyContent:"center",background:`${s.color}22`,border:`1px solid ${s.color}44`,boxShadow:`0 6px 18px ${s.color}30`}}><Icon size={24} style={{color:s.color}}/></span>
-    <span style={{fontWeight:600,fontSize:15,color:"var(--text)"}}>{s.name}</span>
-    <span style={{fontSize:12.5,color:"var(--text2)",direction:"ltr"}}>{s.handle}</span>
-    <span style={{fontSize:12.5,fontWeight:600,color:has?s.color:"var(--text2)",display:"inline-flex",alignItems:"center",gap:5}}>{has?<>{t(UI.socials.visit)} <ExternalLink size={12}/></>:t(UI.socials.soon)}</span>
-  </a>);
-}
-
 function Dock({t,isAr,goTo,onPalette}){
   const ref=useRef(null);const[mx,setMx]=useState(null);
-  const items=[{icon:Home,label:t(UI.nav.home),act:()=>goTo("home")},{icon:User,label:t(UI.nav.about),act:()=>goTo("about")},{icon:FolderOpen,label:t(UI.nav.projects),act:()=>goTo("projects")},{icon:Trophy,label:t(UI.nav.sports),act:()=>goTo("sports")},{icon:Share2,label:t(UI.nav.socials),act:()=>goTo("socials")},{icon:Mail,label:t(UI.nav.contact),act:()=>goTo("contact")},{icon:Command,label:"⌘K",act:onPalette}];
+  const items=[{icon:Home,label:t(UI.nav.home),act:()=>goTo("home")},{icon:User,label:t(UI.nav.about),act:()=>goTo("about")},{icon:FolderOpen,label:t(UI.nav.projects),act:()=>goTo("projects")},{icon:Trophy,label:t(UI.nav.sports),act:()=>goTo("sports")},{icon:Share2,label:t(UI.nav.socials),act:()=>goTo("contact")},{icon:Mail,label:t(UI.nav.contact),act:()=>goTo("contact")},{icon:Command,label:"⌘K",act:onPalette}];
   return(<nav ref={ref} aria-label={isAr?"شريط تنقل سفلي":"Bottom dock"} className="glass desktop-only" onMouseMove={e=>{if(!REDUCED())setMx(e.clientX);}} onMouseLeave={()=>setMx(null)} style={{position:"fixed",bottom:20,left:"50%",transform:"translateX(-50%)",zIndex:50,borderRadius:26,padding:"12px 18px",display:"flex",gap:8,alignItems:"flex-end"}}>
     {items.map((it,i)=>{const Icon=it.icon;let sc=1;if(mx!==null&&ref.current){const kids=ref.current.querySelectorAll(".dock-item");const r=kids[i]?.getBoundingClientRect();if(r){const d=Math.abs(mx-(r.left+r.width/2));sc=Math.max(1,1.45-d/130);}}
       return(<button key={i} className="dock-item" onClick={it.act} aria-label={it.label} style={{background:"none",border:"none",cursor:"pointer",padding:0,transform:`scale(${sc}) translateY(${(sc-1)*-8}px)`}}><span className="dock-label glass" style={{color:"var(--text)"}}>{it.label}</span><span style={{width:44,height:44,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",background:"var(--glass2)",border:"1px solid var(--gborder)",color:"var(--text)"}}><Icon size={20}/></span></button>);
@@ -225,7 +215,7 @@ function CommandPalette({t,isAr,dark,mono,theme,goTo,close,openProject,toggleLan
       {empty&&<div style={{padding:24,textAlign:"center",color:"var(--text2)"}}>{t(UI.palette.empty)}</div>}
       {secs.length>0&&grp(t(UI.palette.sections),secs.map(([id,l])=>row(id,Layers,t(l),()=>goTo(id))))}
       {projs.length>0&&grp(t(UI.palette.projects),projs.map(p=>row("p"+p.id,Star,isAr?p.tAr:p.tEn,()=>openProject(p))))}
-      {socs.length>0&&grp(t(UI.palette.socialsG),socs.map(s=>row(s.id,s.icon,s.name,()=>{close();if(s.url)window.open(s.url,"_blank");else goTo("socials");},s.color)))}
+      {socs.length>0&&grp(t(UI.palette.socialsG),socs.map(s=>row(s.id,s.icon,s.name,()=>{close();if(s.url)window.open(s.url,"_blank");else goTo("contact");},s.color)))}
       {!ql&&grp(t(UI.palette.actions),[row("lang",Globe,t(UI.palette.toggleLang),toggleLang),row("theme",dark?Sun:mono?Moon:Contrast,t(UI.theme[theme]),toggleTheme)])}
     </div>
   </div></div>);
@@ -266,7 +256,7 @@ function App(){
   useEffect(()=>{try{localStorage.setItem("rz-lang",lang);}catch(e){}},[lang]);
 
   useEffect(()=>{
-    const ids=["home","about","interests","projects","sports","socials","contact"];
+    const ids=["home","about","interests","projects","sports","contact"];
     let ticking=false;
     const onScroll=()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{setScrolled(window.scrollY>24);const h=document.documentElement.scrollHeight-window.innerHeight;setProgress(h>0?Math.min(100,(window.scrollY/h)*100):0);let cur="home";for(const id of ids){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=window.innerHeight*0.4)cur=id;}setActive(cur);ticking=false;});};
     window.addEventListener("scroll",onScroll,{passive:true});onScroll();return()=>window.removeEventListener("scroll",onScroll);
@@ -279,7 +269,7 @@ function App(){
 
   useEffect(()=>{document.body.style.overflow=(modal||paletteOpen||menuOpen)?"hidden":"";return()=>{document.body.style.overflow="";};},[modal,paletteOpen,menuOpen]);
 
-  const goTo=useCallback(id=>{setMenuOpen(false);setPaletteOpen(false);const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:REDUCED()?"auto":"smooth",block:"start"});},[]);
+  const goTo=useCallback(id=>{setMenuOpen(false);setPaletteOpen(false);const el=document.getElementById(id==="socials"?"contact":id);if(el)el.scrollIntoView({behavior:REDUCED()?"auto":"smooth",block:"start"});},[]);
 
   const hour=new Date().getHours();
   const greeting=hour>=4&&hour<12?t(UI.greet.morning):t(UI.greet.evening);
@@ -435,7 +425,7 @@ function App(){
           <p style={{fontSize:16.5,color:"var(--text2)",maxWidth:520,marginBottom:30}}>{isAr?DATA.profile.taglineAr:DATA.profile.taglineEn}</p>
           <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
             <button className="btn btn-primary" onClick={()=>goTo("projects")}><Rocket size={16}/> {t(UI.hero.explore)}</button>
-            <button className="btn btn-glass glass" onClick={()=>goTo("socials")}><Share2 size={16}/> {t(UI.hero.socials)}</button>
+            <button className="btn btn-glass glass" onClick={()=>goTo("contact")}><Share2 size={16}/> {t(UI.hero.socials)}</button>
             <button className="btn btn-glass glass" onClick={()=>goTo("contact")}><Mail size={16}/> {t(UI.hero.contact)}</button>
           </div>
         </div>
@@ -512,13 +502,6 @@ function App(){
     <Section eyebrow={isAr?"نقاط القوة":"Strengths"} title={t(UI.sections.skills)} subtitle={t(UI.sections.skillsNote)}>
       <div ref={skillsRef} style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(250px,1fr))",gap:"16px 34px"}}>
         {DATA.skills.map((s,i)=><div key={i}><div style={{display:"flex",justifyContent:"space-between",marginBottom:7,fontSize:13.5,fontWeight:600}}><span>{isAr?s.ar:s.en}</span><span style={{color:"var(--text2)"}} dir="ltr">{s.v}%</span></div><div className="skillbar" role="progressbar" aria-valuenow={s.v} aria-valuemin={0} aria-valuemax={100}><div className="skillfill" style={{width:skillsOn?s.v+"%":"0%"}}/></div></div>)}
-      </div>
-    </Section>
-
-    {/* Socials */}
-    <Section id="socials" eyebrow="@abu00salman" title={t(UI.sections.socials)}>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(155px,1fr))",gap:14}}>
-        {DATA.socials.map(s=><SocialCard key={s.id} s={s} t={t}/>)}
       </div>
     </Section>
 
