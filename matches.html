@@ -81,7 +81,7 @@ html[data-theme="mono"] .chip.on{color:#EFEEEA}
 .match.fav::before{content:"";position:absolute;inset-block:14px;inset-inline-start:0;width:4px;border-radius:0 4px 4px 0;background:linear-gradient(var(--accent),var(--accent2))}
 .row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
 .team{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-weight:600;font-size:15.5px;line-height:1.35;min-width:0}
-.crest{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex:none}
+.crest{width:42px;height:42px;border-radius:14px;box-shadow:0 0 0 1px var(--gborder2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex:none}
 .mid{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:86px}
 .time{font:700 21px Inter;letter-spacing:-.01em;direction:ltr}
 .time small{font:600 11px 'IBM Plex Sans Arabic';color:var(--text2);margin-inline-start:3px}
@@ -106,7 +106,7 @@ footer a{color:var(--accent);text-decoration:none;font-weight:600}
 </head>
 <body>
 <header class="glass">
-  <a class="brand" href="./"><span class="logo">RA</span><span>رمزي الحقوي</span></a>
+  <a class="brand" href="./"><span class="logo">⚽</span><span>مباريات اليوم</span></a>
   <div style="display:flex;gap:8px">
     <button class="iconbtn" id="themeBtn" aria-label="تبديل المظهر"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z" fill="currentColor"/></svg></button>
     <a class="iconbtn" href="./" aria-label="العودة للرئيسية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>الرئيسية</span></a>
@@ -160,6 +160,8 @@ const LEAGUES = [
     {home:"نيوم",away:"الدحيل",time:"21:00",ch:"الكاس 6",com:"سمير اليعقوبي"},
   ]},
 ];
+/* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
+const LOGOS = {"استقلال": "Esteghlal", "الشمال": "Al-Shamal", "الهلال": "local:logos/alhilal.jpg", "شباب الأهلي": "Shabab Al-Ahli", "غلطة سراي": "Galatasaray", "شتوتغارت": "Stuttgart", "شاختار": "Shakhtar Donetsk", "سبورتينغ لشبونة": "Sporting CP", "برشلونة": "Barcelona", "أستون فيلا": "Aston Villa", "فياريال": "Villarreal", "باريس سان جيرمان": "Paris SG", "مانشستر يونايتد": "Manchester United", "روما": "Roma", "أتلتيكو مدريد": "Atletico Madrid", "بايرن ميونخ": "Bayern Munich", "فينورد": "Feyenoord", "إنتر ميلان": "Inter Milan", "بودو / غليمت": "Bodo/Glimt", "ليل": "Lille", "لاسك": "LASK", "سلوفان": "Slovan Bratislava", "إيست بنغال الهندي": "East Bengal", "السيب العماني": "Al-Seeb", "الحسين الأردني": "Al-Hussein", "الشرطة العراقي": "Al-Shorta", "الزوراء": "Al-Zawraa", "الرفاع": "Riffa", "الشباب العماني": "Al-Shabab Oman", "شعب حضرموت": "Shaab Hadramaut", "نيوم": "NEOM", "الدحيل": "Al-Duhail"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
 
 /* ═══════════ المظهر (مشترك مع الصفحة الرئيسية) ═══════════ */
@@ -178,7 +180,15 @@ const status=m=>{const s=ksaDate(m.time),now=Date.now(),d=(now-s)/60000;return d
 const to12=t=>{let[h,m]=t.split(":").map(Number);const p=h>=12?"م":"ص";h=h%12||12;return[`${h}:${String(m).padStart(2,"0")}`,p]};
 const left=m=>{const d=Math.round((ksaDate(m.time)-Date.now())/60000);return d>=60?`بعد ${Math.floor(d/60)}س ${d%60}د`:`بعد ${d} دقيقة`};
 const hue=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h};
-const crest=n=>{const h=hue(n);return`<span class="crest" style="background:linear-gradient(135deg,hsl(${h} 55% 48%),hsl(${(h+40)%360} 55% 38%))">${n.replace(/^ال/,"").trim()[0]}</span>`};
+const crest=n=>{const h=hue(n),u=logoUrl(n);return`<span class="crest" data-team="${esc(n)}" style="background:${u?`#fff url('${u}') center/80% no-repeat`:`linear-gradient(135deg,hsl(${h} 55% 48%),hsl(${(h+40)%360} 55% 38%))`}">${u?"":n.replace(/^ال/,"").trim()[0]}</span>`};
+let logoCache={};try{logoCache=JSON.parse(localStorage.getItem("rz-logos")||"{}")}catch(e){}
+const logoUrl=n=>{const v=LOGOS[n];if(!v)return"";if(v.startsWith("local:"))return v.slice(6);return logoCache[v]||""};
+async function fetchLogos(){
+  const need=[...new Set(Object.values(LOGOS))].filter(v=>!v.startsWith("local:")&&!(v in logoCache));
+  await Promise.all(need.map(async q=>{try{const r=await fetch("https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t="+encodeURIComponent(q));const j=await r.json();const t=(j.teams||[]).find(t=>t.strSport==="Soccer");logoCache[q]=t&&(t.strBadge||t.strTeamBadge)?(t.strBadge||t.strTeamBadge)+"/tiny":"";}catch(e){}}));
+  try{localStorage.setItem("rz-logos",JSON.stringify(logoCache))}catch(e){}
+  render();
+}
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 let filter="all";
@@ -217,6 +227,7 @@ function render(){
   list.innerHTML=html||'<div class="empty glass">لا توجد مباريات جارية الآن ⚽</div>';
 }
 render();
+fetchLogos();
 setInterval(render,60000);
 </script>
 </body>
