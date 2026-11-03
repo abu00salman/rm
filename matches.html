@@ -98,6 +98,27 @@ html[data-theme="mono"] .chip.on{color:#EFEEEA}
 .empty{text-align:center;color:var(--text2);padding:40px 10px;border-radius:24px}
 footer{text-align:center;color:var(--text2);font-size:13px;padding:10px 0 40px}
 footer a{color:var(--accent);text-decoration:none;font-weight:600}
+.watch{display:inline-flex;align-items:center;gap:6px;font:600 12.5px inherit;font-family:inherit;padding:5px 13px;border-radius:99px;border:none;cursor:pointer;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+html[data-theme="mono"] .watch{color:#EFEEEA}
+.watch svg{width:13px;height:13px}
+.player{margin-top:12px;border-radius:18px;overflow:hidden;background:#000;position:relative;aspect-ratio:16/9}
+.player video{width:100%;height:100%;display:block;background:#000}
+.player .msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;text-align:center;color:#fff;font-size:13.5px;background:rgba(0,0,0,.72)}
+.player .msg button{margin-top:4px}
+.player .close{position:absolute;top:8px;inset-inline-end:8px;z-index:2;width:30px;height:30px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;cursor:pointer;font-size:16px}
+.banner{border-radius:18px;padding:12px 16px;font-size:13.5px;color:var(--text2);margin-bottom:10px}
+dialog{border:none;padding:0;background:transparent;width:min(94vw,560px);max-height:88vh;color:var(--text)}
+dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
+.panel{border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:12px;max-height:88vh;overflow:auto;background:var(--bg)}
+.panel h3{font-size:17px}
+.panel .field{width:100%;padding:11px 13px;border-radius:13px;border:1px solid var(--gborder2);background:var(--glass);color:var(--text);font:14px inherit;font-family:inherit}
+.panel .hint{font-size:12.5px;color:var(--text2)}
+.panel .rowx{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chlist{display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto}
+.chlist div{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:7px 10px;border-radius:10px;background:var(--glass)}
+.chlist small{color:var(--text2)}
+.maprow{display:grid;grid-template-columns:1fr 1.2fr;gap:8px;align-items:center;font-size:13px}
+.maprow select{padding:7px;border-radius:10px;border:1px solid var(--gborder2);background:var(--glass);color:var(--text);font:13px inherit;font-family:inherit;min-width:0}
 @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes pulse{50%{opacity:.3}}
 @media (max-width:420px){.team{font-size:14px}.time{font-size:19px}.mid{min-width:76px}.crest{width:36px;height:36px;font-size:14px}}
@@ -124,10 +145,28 @@ footer a{color:var(--accent);text-decoration:none;font-weight:600}
     <div class="stat glass"><b id="sUp">0</b><span>قادمة</span></div>
   </div>
 
+  <div id="banner"></div>
   <div class="chips" id="chips" role="tablist"></div>
   <div id="list"></div>
 </main>
 <footer>التوقيت بتوقيت مكة المكرمة · <a href="./">abu00salman.com</a></footer>
+
+<!-- لوحة الإدارة الخاصة: تفتح بإضافة #admin للرابط. كل ما فيها يُحفظ على هذا الجهاز فقط (IndexedDB) ولا يُرفع لأي مكان -->
+<dialog id="admin"><div class="panel glass">
+  <div class="rowx" style="justify-content:space-between"><h3>لوحة المصدر الخاص</h3><button class="iconbtn" id="admClose" aria-label="إغلاق">✕</button></div>
+  <p class="hint">يُحفظ المصدر وروابط القنوات على هذا الجهاز وهذا المتصفح فقط، ولا يُنشر في الموقع أو GitHub. التشغيل منه متاح في جلستك أنت فقط، ولا يراه زوار الموقع.</p>
+  <label class="hint" for="m3uFile">ملف M3U (الأضمن على iPhone)</label>
+  <input class="field" type="file" id="m3uFile" accept=".m3u,.m3u8,audio/x-mpegurl,application/x-mpegurl,text/plain"/>
+  <label class="hint" for="m3uUrl">أو رابط M3U (يجب أن يكون https ويسمح بـ CORS)</label>
+  <div class="rowx"><input class="field" style="flex:1" id="m3uUrl" type="url" inputmode="url" autocomplete="off" placeholder="https://…"/><button class="iconbtn" id="m3uLoad">تحميل</button></div>
+  <div class="hint" id="admStatus"></div>
+  <input class="field" id="chSearch" type="search" placeholder="ابحث في القنوات… (مثال: bein 2)"/>
+  <div class="chlist" id="chList"></div>
+  <h3 style="font-size:15px">ربط المباريات بالقنوات</h3>
+  <p class="hint">الربط تلقائي حسب اسم القناة، ويمكنك تصحيحه يدويًا هنا.</p>
+  <div id="mapList" style="display:flex;flex-direction:column;gap:6px"></div>
+  <button class="iconbtn" id="admClear" style="color:var(--live)">حذف المصدر من هذا الجهاز</button>
+</div></dialog>
 
 <script>
 /* ═══════════ 📦 البيانات — عدّل المباريات من هنا فقط ═══════════
@@ -163,6 +202,12 @@ const LEAGUES = [
 /* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
 const LOGOS = {"استقلال": "Esteghlal", "الشمال": "Al-Shamal", "الهلال": "local:logos/alhilal.jpg", "شباب الأهلي": "Shabab Al-Ahli", "غلطة سراي": "Galatasaray", "شتوتغارت": "Stuttgart", "شاختار": "Shakhtar Donetsk", "سبورتينغ لشبونة": "Sporting CP", "برشلونة": "Barcelona", "أستون فيلا": "Aston Villa", "فياريال": "Villarreal", "باريس سان جيرمان": "Paris SG", "مانشستر يونايتد": "Manchester United", "روما": "Roma", "أتلتيكو مدريد": "Atletico Madrid", "بايرن ميونخ": "Bayern Munich", "فينورد": "Feyenoord", "إنتر ميلان": "Inter Milan", "بودو / غليمت": "Bodo/Glimt", "ليل": "Lille", "لاسك": "LASK", "سلوفان": "Slovan Bratislava", "إيست بنغال الهندي": "East Bengal", "السيب العماني": "Al-Seeb", "الحسين الأردني": "Al-Hussein", "الشرطة العراقي": "Al-Shorta", "الزوراء": "Al-Zawraa", "الرفاع": "Riffa", "الشباب العماني": "Al-Shabab Oman", "شعب حضرموت": "Shaab Hadramaut", "نيوم": "NEOM", "الدحيل": "Al-Duhail"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
+/* 🌐 مصادر بث عامة مرخّصة يراها كل الزوار (HLS ‎.m3u8 عبر https فقط)
+   المفتاح: اسم القناة كما في ch، أو "الفريق المضيف|الفريق الضيف" لمباراة بعينها.
+   أضف هنا فقط بثًا تملك حق عرضه أو تتيحه الجهة المالكة للعموم.        */
+const PUBLIC_SOURCES = {
+  // "قناة رياضية مجانية": {label:"البث الرسمي", url:"https://…/index.m3u8"},
+};
 
 /* ═══════════ المظهر (مشترك مع الصفحة الرئيسية) ═══════════ */
 const THEMES=["dark","light","mono"];
@@ -208,15 +253,21 @@ function card(m,i){
       <div class="mid"><div class="time">${t}<small>${p}</small></div>${badge}${st==="up"?`<span class="countdown">${left(m)}</span>`:""}</div>
       <div class="team">${crest(m.away)}<span>${esc(m.away)}</span></div>
     </div>
-    <div class="meta"><span class="pill ch">${ICON.tv}<span class="${/[a-z]/i.test(m.ch)?"en":""}">${esc(m.ch)}</span></span><span class="pill">${ICON.mic}${esc(m.com)}</span></div>
+    <div class="meta"><span class="pill ch">${ICON.tv}<span class="${/[a-z]/i.test(m.ch)?"en":""}">${esc(m.ch)}</span></span><span class="pill">${ICON.mic}${esc(m.com)}</span>${sourceFor(m)&&st!=="end"?`<button class="watch" data-key="${esc(keyOf(m))}">${ICON.play}مشاهدة</button>`:""}</div>
   </article>`;
 }
 function render(){
-  chips();
   const flat=LEAGUES.flatMap(l=>l.matches);
+  const c={live:0,up:0,end:0};flat.forEach(m=>c[status(m)]++);
   sTotal.textContent=flat.length;
-  sLive.textContent=flat.filter(m=>status(m)==="live").length;
-  sUp.textContent=flat.filter(m=>status(m)==="up").length;
+  sLive.textContent=c.live;
+  // بعد انتهاء يوم الجدول كانت العدادات تظهر صفرًا — نعرض المنتهية بدلًا من القادمة
+  if(!c.up&&!c.live&&c.end){sUp.textContent=c.end;sUp.nextElementSibling.textContent="انتهت"}
+  else{sUp.textContent=c.up;sUp.nextElementSibling.textContent="قادمة"}
+  const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Riyadh"}).format(new Date());
+  banner.innerHTML=today>DAY?`<div class="banner glass">📅 هذا جدول ${esc(dateLine.textContent)} — لم يُحدَّث جدول اليوم بعد.</div>`:"";
+  if(openPlayer)return; // لا نعيد بناء القائمة أثناء المشاهدة حتى لا ينقطع البث
+  chips();
   let i=0;
   const html=LEAGUES.filter(l=>filter==="all"||filter==="live"||filter===l.id).map(l=>{
     const ms=[...l.matches].filter(m=>filter!=="live"||status(m)==="live")
@@ -226,9 +277,128 @@ function render(){
   }).join("");
   list.innerHTML=html||'<div class="empty glass">لا توجد مباريات جارية الآن ⚽</div>';
 }
+/* ═══════════ المصدر الخاص (على هذا الجهاز فقط) ═══════════ */
+const DB={
+  open(){return this.p||(this.p=new Promise((res,rej)=>{const r=indexedDB.open("rz-iptv",1);r.onupgradeneeded=()=>r.result.createObjectStore("kv");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}))},
+  async get(k){const d=await this.open();return new Promise(res=>{const r=d.transaction("kv").objectStore("kv").get(k);r.onsuccess=()=>res(r.result);r.onerror=()=>res(undefined)})},
+  async set(k,v){const d=await this.open();return new Promise(res=>{const t=d.transaction("kv","readwrite");t.objectStore("kv").put(v,k);t.oncomplete=res;t.onerror=res})},
+  async del(k){const d=await this.open();return new Promise(res=>{const t=d.transaction("kv","readwrite");t.objectStore("kv").delete(k);t.oncomplete=res})},
+};
+let channels=[];   // [{n:الاسم,g:المجموعة,u:الرابط}]
+let manualMap={};  // {مفتاح المباراة: رابط القناة}
+const keyOf=m=>m.home+"|"+m.away;
+
+function parseM3U(txt){
+  const out=[];let cur=null;
+  for(const raw of txt.split(/\r?\n/)){const l=raw.trim();if(!l)continue;
+    if(l.startsWith("#EXTINF")){const n=l.slice(l.lastIndexOf(",")+1).trim();const g=(l.match(/group-title="([^"]*)"/)||[])[1]||"";cur={n,g}}
+    else if(!l.startsWith("#")&&cur){cur.u=l;out.push(cur);cur=null}}
+  return out;
+}
+const norm=s=>s.toLowerCase().replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/الكاس/g,"alkass").replace(/[^a-z0-9]+/g," ").trim();
+const isLive=c=>!/\/(movie|series)\//.test(c.u);
+function autoMatch(ch){
+  const q=norm(ch),qt=q.split(" "),num=(q.match(/\d+/g)||[]).join(" ");
+  let best=null,bs=-1;
+  for(const c of channels){if(!isLive(c))continue;const n=norm(c.n);
+    if(!qt.every(t=>n.split(" ").includes(t)))continue;
+    if(((n.match(/\d+/g)||[]).filter(x=>!/^(4k|hd|fhd|sd|1080|720|50|60)$/.test(x)).join(" "))!==num)continue; // beIN 2 ≠ beIN 12
+    let s=100-n.length;if(/\b(hd|fhd)\b/.test(n))s+=20;if(/\bar|arab|mena/.test(norm(c.g)))s+=10;
+    if(s>bs){bs=s;best=c}}
+  return best;
+}
+function sourceFor(m){
+  const pub=PUBLIC_SOURCES[keyOf(m)]||PUBLIC_SOURCES[m.ch];
+  if(manualMap[keyOf(m)])return{label:"مصدري الخاص",url:manualMap[keyOf(m)],priv:true};
+  const a=channels.length&&autoMatch(m.ch);
+  if(a)return{label:a.n,url:a.u,priv:true};
+  return pub||null;
+}
+
+/* ═══════════ المشغّل ═══════════ */
+ICON.play='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg>';
+let openPlayer=null,hlsLib=null;
+const loadHls=()=>hlsLib||(hlsLib=new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js";s.onload=()=>res(window.Hls);s.onerror=()=>{hlsLib=null;rej(new Error("hls"))};document.head.appendChild(s)}));
+function closePlayer(){if(!openPlayer)return;try{openPlayer.hls&&openPlayer.hls.destroy()}catch(e){}openPlayer.box.remove();openPlayer=null;render()}
+function candidates(url){ // روابط Xtream بصيغة ‎.ts نجرب نسختها HLS أولًا لأن المتصفح لا يشغّل ‎.ts مباشرة
+  return /\.ts(\?|$)/.test(url)?[url.replace(/\.ts(\?|$)/,".m3u8$1"),url]:[url];
+}
+function explain(url,code){
+  if(location.protocol==="https:"&&url.startsWith("http:"))return"المصدر يعمل عبر http والموقع عبر https، والمتصفح (خصوصًا Safari) يمنع تشغيله داخل الصفحة. اطلب من المزوّد رابط https.";
+  if(code==="ts")return"صيغة ‎.ts المباشرة لا تعمل في المتصفح، ولم يتوفر للقناة رابط HLS ‏(.m3u8).";
+  if(code==="net")return"تعذّر الوصول إلى البث (انقطاع، أو انتهاء الاشتراك، أو منع CORS من المزوّد).";
+  return"تعذّر تشغيل البث.";
+}
+async function play(m,article){
+  closePlayer();
+  const src=sourceFor(m);if(!src)return;
+  const box=document.createElement("div");box.className="player";
+  box.innerHTML='<button class="close" aria-label="إغلاق المشغل">✕</button><video playsinline controls autoplay muted></video><div class="msg">⏳ جارٍ التحميل…</div>';
+  article.appendChild(box);
+  const v=box.querySelector("video"),msg=box.querySelector(".msg");
+  openPlayer={box,hls:null};
+  box.querySelector(".close").onclick=closePlayer;
+  const fail=t=>{msg.style.display="flex";msg.innerHTML=`<div>⚠️ ${esc(t)}</div><button class="watch">إعادة المحاولة</button>`;msg.querySelector("button").onclick=()=>play(m,article)};
+  v.addEventListener("playing",()=>{msg.style.display="none"});
+  const urls=candidates(src.url);let lastCode="net";
+  for(const u of urls){
+    if(openPlayer?.box!==box)return;
+    if(/\.ts(\?|$)/.test(u)&&!/\.m3u8/.test(u)){if(urls.length===1)lastCode="ts";continue}
+    if(location.protocol==="https:"&&u.startsWith("http:")){fail(explain(u));return}
+    const ok=await new Promise(async res=>{
+      if(v.canPlayType("application/vnd.apple.mpegurl")){ // Safari / iPhone: HLS أصلي
+        const done=r=>{v.onloadedmetadata=v.onerror=null;res(r)};
+        v.onloadedmetadata=()=>done(true);v.onerror=()=>done(false);v.src=u;
+        setTimeout(()=>done(v.readyState>0),15000);return;
+      }
+      try{const Hls=await loadHls();if(!Hls.isSupported())return res(false);
+        const h=new Hls({lowLatencyMode:true,maxBufferLength:20});openPlayer.hls=h;
+        h.on(Hls.Events.MANIFEST_PARSED,()=>res(true));
+        h.on(Hls.Events.ERROR,(e,d)=>{if(!d.fatal)return;if(d.type===Hls.ErrorTypes.MEDIA_ERROR){h.recoverMediaError();return}h.destroy();openPlayer&&(openPlayer.hls=null);res(false)});
+        h.loadSource(u);h.attachMedia(v);
+      }catch(e){res(false)}
+    });
+    if(ok){v.play().catch(()=>{msg.innerHTML='<button class="watch">▶ تشغيل</button>';msg.querySelector("button").onclick=()=>{v.play();msg.style.display="none"}});return}
+  }
+  fail(explain(src.url,lastCode));
+}
+list.addEventListener("click",e=>{const b=e.target.closest(".watch[data-key]");if(!b)return;
+  const m=LEAGUES.flatMap(l=>l.matches).find(x=>keyOf(x)===b.dataset.key);if(m)play(m,b.closest(".match"))});
+
+/* ═══════════ لوحة الإدارة (#admin) ═══════════ */
+function renderChannels(){
+  const q=norm(chSearch.value);const live=channels.filter(isLive);
+  const qt=q.split(" ").filter(Boolean);const hits=(qt.length?live.filter(c=>{const w=norm(c.n+" "+c.g).split(" ");return qt.every(t=>w.some(x=>x.startsWith(t)))}):live).slice(0,150);
+  chList.innerHTML=hits.map(c=>`<div><span>${esc(c.n)}</span><small>${esc(c.g)}</small></div>`).join("")||'<div><small>لا توجد قنوات</small></div>';
+}
+function renderMap(){
+  const live=channels.filter(isLive).filter(c=>/bein|alkass|الكاس|ssc|sport/i.test(c.n+c.g)).slice(0,400);
+  mapList.innerHTML=LEAGUES.flatMap(l=>l.matches).map(m=>{const k=keyOf(m),a=channels.length?autoMatch(m.ch):null;
+    return`<div class="maprow"><span>${esc(m.home)} × ${esc(m.away)}<br><small class="hint">${esc(m.ch)}</small></span><select data-k="${esc(k)}"><option value="">${a?"تلقائي: "+esc(a.n):"— بدون ربط —"}</option>${live.map(c=>`<option value="${esc(c.u)}" ${manualMap[k]===c.u?"selected":""}>${esc(c.n)}</option>`).join("")}</select></div>`}).join("");
+  mapList.querySelectorAll("select").forEach(s=>s.onchange=async()=>{if(s.value)manualMap[s.dataset.k]=s.value;else delete manualMap[s.dataset.k];await DB.set("map",manualMap);render()});
+}
+async function setChannels(txt){
+  const list=parseM3U(txt);
+  if(!list.length){admStatus.textContent="⚠️ لم يُعثر على قنوات في الملف.";return}
+  channels=list;await DB.set("channels",list);
+  admStatus.textContent=`✅ تم تحميل ${list.filter(isLive).length} قناة مباشرة.`;
+  renderChannels();renderMap();render();
+}
+m3uFile.onchange=async()=>{const f=m3uFile.files[0];if(f){admStatus.textContent="⏳ جارٍ القراءة…";setChannels(await f.text())}};
+m3uLoad.onclick=async()=>{const u=m3uUrl.value.trim();if(!u)return;
+  if(location.protocol==="https:"&&u.startsWith("http:")){admStatus.textContent="⚠️ الرابط http لا يمكن تحميله من صفحة https. نزّل الملف وارفعه من خانة الملف بالأعلى.";return}
+  admStatus.textContent="⏳ جارٍ التحميل…";
+  try{const r=await fetch(u);if(!r.ok)throw 0;await setChannels(await r.text());m3uUrl.value=""}catch(e){admStatus.textContent="⚠️ تعذّر التحميل (CORS أو الرابط غير صحيح). جرّب رفع الملف."}};
+chSearch.oninput=renderChannels;
+admClear.onclick=async()=>{await DB.del("channels");await DB.del("map");channels=[];manualMap={};admStatus.textContent="🗑️ تم الحذف من هذا الجهاز.";renderChannels();renderMap();closePlayer();render()};
+admClose.onclick=()=>{admin.close();history.replaceState(null,"",location.pathname)};
+const checkHash=()=>{if(location.hash==="#admin"&&!admin.open){admin.showModal();renderChannels();renderMap()}};
+addEventListener("hashchange",checkHash);
+
 render();
 fetchLogos();
 setInterval(render,60000);
+(async()=>{try{channels=(await DB.get("channels"))||[];manualMap=(await DB.get("map"))||{};if(channels.length)render()}catch(e){}checkHash()})();
 </script>
 </body>
 </html>
