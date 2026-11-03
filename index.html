@@ -412,7 +412,7 @@ function App(){
     </header>
 
     {/* Mobile menu */}
-    {menuOpen&&<div className="modal-bg mobile-only" style={{alignItems:"flex-start",paddingTop:90}} onClick={()=>setMenuOpen(false)}><nav className="glass pop" aria-label={isAr?"قائمة الجوال":"Mobile menu"} onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:420,borderRadius:26,padding:14,display:"flex",flexDirection:"column",gap:4}}>{NAV_ITEMS.map(([id,l])=><button key={id} onClick={()=>goTo(id)} className={`navlink ${active===id?"active":""}`} style={{fontSize:16,padding:"14px 18px",textAlign:"start",width:"100%"}}>{t(l)}</button>)}</nav></div>}
+    {menuOpen&&<div className="modal-bg mobile-only" style={{alignItems:"flex-start",paddingTop:90}} onClick={()=>setMenuOpen(false)}><nav className="glass pop" aria-label={isAr?"قائمة الجوال":"Mobile menu"} onClick={e=>e.stopPropagation()} style={{width:"100%",maxWidth:420,borderRadius:26,padding:14,display:"flex",flexDirection:"column",gap:4}}>{NAV_ITEMS.flatMap(([id,l])=>{const b=<button key={id} onClick={()=>goTo(id)} className={`navlink ${active===id?"active":""}`} style={{fontSize:16,padding:"14px 18px",textAlign:"start",width:"100%"}}>{t(l)}</button>;return id==="sports"?[b,<a key="matches" href="matches.html" className="navlink" style={{fontSize:16,padding:"14px 18px",textAlign:"start",width:"100%",textDecoration:"none",display:"block"}}>{isAr?"مباريات اليوم":"Today's Matches"}</a>]:[b];})}</nav></div>}
 
     {/* Hero */}
     <section id="home" style={{position:"relative",zIndex:2,minHeight:"100vh",display:"flex",alignItems:"center",padding:"130px 22px 60px"}}>
