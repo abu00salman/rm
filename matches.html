@@ -171,6 +171,7 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
 <script>
 /* ═══════════ 📦 البيانات — عدّل المباريات من هنا فقط ═══════════
    date: تاريخ اليوم (YYYY-MM-DD) · time: 24 ساعة بتوقيت السعودية
+   fav: true لإبراز المباراة                                      */
 const DAY = "2026-11-23";
 const LEAGUES = [
   {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
@@ -192,7 +193,7 @@ const LEAGUES = [
   ]},
 ];
 /* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
-const LOGOS = {"نفتشي": "Neftchi Baku", "الهلال": "local:logos/alhilal.jpg", "الشمال": "Al-Shamal", "الأهلي": "Al-Ahli Saudi", "العين": "Al-Ain", "استقلال": "Esteghlal", "تراكتور": "Tractor", "الوصل": "Al-Wasl", "الاتحاد": "Al-Ittihad", "باختاكور": "Pakhtakor", "القوة الجوية": "Al-Quwa Al-Jawiya", "الغرافة": "Al-Gharafa", "برينتفورد": "Brentford", "إيفرتون": "Everton", "ليفانتي": "Levante", "التشي": "Elche", "مونزا": "Monza", "فيورنتينا": "Fiorentina"};
+const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
 /* 🌐 مصادر بث عامة مرخّصة يراها كل الزوار (HLS ‎.m3u8 عبر https فقط)
    المفتاح: اسم القناة كما في ch، أو "الفريق المضيف|الفريق الضيف" لمباراة بعينها.
