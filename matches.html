@@ -171,36 +171,28 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
 <script>
 /* ═══════════ 📦 البيانات — عدّل المباريات من هنا فقط ═══════════
    date: تاريخ اليوم (YYYY-MM-DD) · time: 24 ساعة بتوقيت السعودية
-   fav: true لإبراز المباراة                                      */
-const DAY = "2026-11-03";
+const DAY = "2026-11-23";
 const LEAGUES = [
-  {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 4",icon:"🏆",color:"#7b5cd6",matches:[
-    {home:"استقلال",away:"الشمال",time:"19:00",ch:"beIN SPORTS 2",com:"عبدالله الغامدي"},
-    {home:"الهلال",away:"شباب الأهلي",time:"21:15",ch:"beIN SPORTS 2",com:"احمد البلوشي",fav:true},
+  {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
+    {home:"نفتشي",away:"الهلال",time:"16:45",ch:"beIN SPORTS 1",com:"عصام الشوالي",fav:true},
+    {home:"الشمال",away:"الأهلي",time:"19:00",ch:"beIN SPORTS 1",com:"حفيظ دراجي"},
+    {home:"العين",away:"استقلال",time:"19:00",ch:"beIN SPORTS 2",com:"علي الكعبي"},
+    {home:"تراكتور",away:"الوصل",time:"19:00",ch:"beIN SPORTS 3",com:"حسن العيدروس"},
+    {home:"الاتحاد",away:"باختاكور",time:"21:15",ch:"beIN SPORTS 3",com:"عبدالله الغامدي"},
+    {home:"القوة الجوية",away:"الغرافة",time:"21:15",ch:"beIN SPORTS 1",com:"احمد البلوشي"},
   ]},
-  {id:"ucl",name:"دوري أبطال أوروبا",round:"الدوري — الجولة 4",icon:"⭐",color:"#1f4fa8",matches:[
-    {home:"غلطة سراي",away:"شتوتغارت",time:"20:45",ch:"beIN SPORTS 3",com:"محمد بركات"},
-    {home:"شاختار",away:"سبورتينغ لشبونة",time:"20:45",ch:"beIN SPORTS 4",com:"جواد بدة"},
-    {home:"برشلونة",away:"أستون فيلا",time:"23:00",ch:"beIN SPORTS 1",com:"علي الكعبي",fav:true},
-    {home:"فياريال",away:"باريس سان جيرمان",time:"23:00",ch:"beIN SPORTS 3",com:"عامر الخوذيري"},
-    {home:"مانشستر يونايتد",away:"روما",time:"23:00",ch:"beIN SPORTS 4",com:"عصام الشوالي"},
-    {home:"أتلتيكو مدريد",away:"بايرن ميونخ",time:"23:00",ch:"beIN SPORTS 5",com:"علي محمد علي"},
-    {home:"فينورد",away:"إنتر ميلان",time:"23:00",ch:"beIN SPORTS 8",com:"حفيظ دراجي"},
-    {home:"بودو / غليمت",away:"ليل",time:"23:00",ch:"beIN SPORTS 9",com:"محمد مبروكي"},
-    {home:"لاسك",away:"سلوفان",time:"23:00",ch:"beIN SPORTS XTRA 1",com:"أحمد عبده"},
+  {id:"epl",name:"الدوري الإنجليزي",round:"الجولة 11",icon:"🦁",color:"#3d195b",matches:[
+    {home:"برينتفورد",away:"إيفرتون",time:"23:00",ch:"beIN SPORTS 2",com:"علي محمد علي"},
   ]},
-  {id:"acl2",name:"دوري أبطال آسيا 2",round:"الجولة 4",icon:"🏅",color:"#2a8fd6",matches:[
-    {home:"إيست بنغال الهندي",away:"السيب العماني",time:"19:00",ch:"beIN SPORTS 8",com:"حسن العيدروس"},
-    {home:"الحسين الأردني",away:"الشرطة العراقي",time:"21:15",ch:"beIN SPORTS 5",com:"باسم الزير"},
+  {id:"laliga",name:"الدوري الإسباني",round:"الجولة 13",icon:"🇪🇸",color:"#e8341c",matches:[
+    {home:"ليفانتي",away:"التشي",time:"23:00",ch:"beIN SPORTS 4",com:"نوفل باشي"},
   ]},
-  {id:"gcc",name:"كأس الخليج للأندية",round:"الجولة 3",icon:"🌊",color:"#c2439a",matches:[
-    {home:"الزوراء",away:"الرفاع",time:"17:30",ch:"الكاس 6",com:"منتصر أزهري"},
-    {home:"الشباب العماني",away:"شعب حضرموت",time:"17:45",ch:"الكاس 6",com:"يزن لبابنة"},
-    {home:"نيوم",away:"الدحيل",time:"21:00",ch:"الكاس 6",com:"سمير اليعقوبي"},
+  {id:"seriea",name:"الدوري الإيطالي",round:"الجولة 12",icon:"🇮🇹",color:"#1a73e8",matches:[
+    {home:"مونزا",away:"فيورنتينا",time:"22:45",ch:"STARZPLAY",com:"احمد الخير"},
   ]},
 ];
 /* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
-const LOGOS = {"استقلال": "Esteghlal", "الشمال": "Al-Shamal", "الهلال": "local:logos/alhilal.jpg", "شباب الأهلي": "Shabab Al-Ahli", "غلطة سراي": "Galatasaray", "شتوتغارت": "Stuttgart", "شاختار": "Shakhtar Donetsk", "سبورتينغ لشبونة": "Sporting CP", "برشلونة": "Barcelona", "أستون فيلا": "Aston Villa", "فياريال": "Villarreal", "باريس سان جيرمان": "Paris SG", "مانشستر يونايتد": "Manchester United", "روما": "Roma", "أتلتيكو مدريد": "Atletico Madrid", "بايرن ميونخ": "Bayern Munich", "فينورد": "Feyenoord", "إنتر ميلان": "Inter Milan", "بودو / غليمت": "Bodo/Glimt", "ليل": "Lille", "لاسك": "LASK", "سلوفان": "Slovan Bratislava", "إيست بنغال الهندي": "East Bengal", "السيب العماني": "Al-Seeb", "الحسين الأردني": "Al-Hussein", "الشرطة العراقي": "Al-Shorta", "الزوراء": "Al-Zawraa", "الرفاع": "Riffa", "الشباب العماني": "Al-Shabab Oman", "شعب حضرموت": "Shaab Hadramaut", "نيوم": "NEOM", "الدحيل": "Al-Duhail"};
+const LOGOS = {"نفتشي": "Neftchi Baku", "الهلال": "local:logos/alhilal.jpg", "الشمال": "Al-Shamal", "الأهلي": "Al-Ahli Saudi", "العين": "Al-Ain", "استقلال": "Esteghlal", "تراكتور": "Tractor", "الوصل": "Al-Wasl", "الاتحاد": "Al-Ittihad", "باختاكور": "Pakhtakor", "القوة الجوية": "Al-Quwa Al-Jawiya", "الغرافة": "Al-Gharafa", "برينتفورد": "Brentford", "إيفرتون": "Everton", "ليفانتي": "Levante", "التشي": "Elche", "مونزا": "Monza", "فيورنتينا": "Fiorentina"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
 /* 🌐 مصادر بث عامة مرخّصة يراها كل الزوار (HLS ‎.m3u8 عبر https فقط)
    المفتاح: اسم القناة كما في ch، أو "الفريق المضيف|الفريق الضيف" لمباراة بعينها.
@@ -249,9 +241,9 @@ function card(m,i){
   const badge=st==="live"?'<span class="badge b-live"><i></i>مباشر</span>':st==="end"?'<span class="badge b-end">انتهت</span>':'<span class="badge b-up">لم تبدأ</span>';
   return`<article class="match glass ${m.fav?"fav":""}" style="animation-delay:${i*40}ms">
     <div class="row">
-      <div class="team">${crest(m.home)}<span>${esc(m.home)}${m.fav&&/الهلال|برشلونة/.test(m.home)?" ⭐":""}</span></div>
+      <div class="team">${crest(m.home)}<span>${esc(m.home)}${m.fav&&/الهلال/.test(m.home)?" ⭐":""}</span></div>
       <div class="mid"><div class="time">${t}<small>${p}</small></div>${badge}${st==="up"?`<span class="countdown">${left(m)}</span>`:""}</div>
-      <div class="team">${crest(m.away)}<span>${esc(m.away)}</span></div>
+      <div class="team">${crest(m.away)}<span>${esc(m.away)}${m.fav&&/الهلال/.test(m.away)?" ⭐":""}</span></div>
     </div>
     <div class="meta"><span class="pill ch">${ICON.tv}<span class="${/[a-z]/i.test(m.ch)?"en":""}">${esc(m.ch)}</span></span><span class="pill">${ICON.mic}${esc(m.com)}</span>${sourceFor(m)&&st!=="end"?`<button class="watch" data-key="${esc(keyOf(m))}">${ICON.play}مشاهدة</button>`:""}</div>
   </article>`;
