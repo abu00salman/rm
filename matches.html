@@ -95,6 +95,21 @@ html[data-theme="mono"] .chip.on{color:#EFEEEA}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text2);padding:5px 11px;border-radius:99px;background:var(--glass2);border:1px solid var(--gborder2)}
 .pill svg{width:14px;height:14px;flex:none}
 .pill.ch{color:var(--text);font-weight:600}
+.days{display:flex;gap:6px;padding:5px;border-radius:99px;margin:18px 0 0;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.days button{flex:none;border:none;background:none;color:var(--text2);font:600 13.5px inherit;font-family:inherit;padding:8px 16px;border-radius:99px;cursor:pointer;transition:all .25s;white-space:nowrap}
+.days button small{display:block;font:500 10.5px Inter;opacity:.75}
+.days button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+html[data-theme="mono"] .days button.on{color:#EFEEEA}
+.score{font:800 26px Inter;direction:rtl;display:flex;align-items:center;gap:8px;letter-spacing:-.02em}
+.score i{font-style:normal;color:var(--text2);font-weight:500;font-size:18px}
+.score .tbd{color:var(--text2);font-size:20px;font-weight:600}
+.team.win span{font-weight:800}
+.team.lose{opacity:.55}
+.team.win .crest{box-shadow:0 0 0 2px var(--accent)}
+.b-ft{color:var(--text2);background:var(--glass2);border:1px solid var(--gborder2)}
+.recap{border-radius:20px;padding:14px 16px;margin:14px 0 4px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.recap b{display:block;font:700 20px Inter}
+.recap span{font-size:12px;color:var(--text2)}
 .empty{text-align:center;color:var(--text2);padding:40px 10px;border-radius:24px}
 footer{text-align:center;color:var(--text2);font-size:13px;padding:10px 0 40px}
 footer a{color:var(--accent);text-decoration:none;font-weight:600}
@@ -136,9 +151,10 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
 
 <main>
   <div class="eyebrow">⚽ الرياضة</div>
-  <h1>مباريات <span class="grad">اليوم</span></h1>
+  <h1>مباريات <span class="grad" id="hDay">اليوم</span></h1>
   <p class="sub" id="dateLine"></p>
 
+  <nav class="days glass" id="days" aria-label="اختيار اليوم"></nav>
   <div class="stats">
     <div class="stat glass"><b id="sTotal">0</b><span>مباراة</span></div>
     <div class="stat glass"><b id="sLive" style="color:var(--live)">0</b><span>جارية الآن</span></div>
@@ -146,6 +162,7 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
   </div>
 
   <div id="banner"></div>
+  <div id="recap"></div>
   <div class="chips" id="chips" role="tablist"></div>
   <div id="list"></div>
 </main>
@@ -170,30 +187,60 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
 
 <script>
 /* ═══════════ 📦 البيانات — عدّل المباريات من هنا فقط ═══════════
-   date: تاريخ اليوم (YYYY-MM-DD) · time: 24 ساعة بتوقيت السعودية
-   fav: true لإبراز المباراة                                      */
-const DAY = "2026-11-23";
-const LEAGUES = [
+   time: 24 ساعة بتوقيت السعودية · fav: true لإبراز المباراة
+   s:[أهداف المضيف, أهداف الضيف] — النتيجة النهائية (اتركها null حتى تُعرف)
+   كل يوم جديد: انقل جدول TODAY إلى أعلى ARCHIVE وأضف النتائج، ثم ضع جدول اليوم */
+const TODAY = {day:"2026-11-24", leagues:[
   {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
-    {home:"نفتشي",away:"الهلال",time:"16:45",ch:"beIN SPORTS 1",com:"عصام الشوالي",fav:true},
-    {home:"الشمال",away:"الأهلي",time:"19:00",ch:"beIN SPORTS 1",com:"حفيظ دراجي"},
-    {home:"العين",away:"استقلال",time:"19:00",ch:"beIN SPORTS 2",com:"علي الكعبي"},
-    {home:"تراكتور",away:"الوصل",time:"19:00",ch:"beIN SPORTS 3",com:"حسن العيدروس"},
-    {home:"الاتحاد",away:"باختاكور",time:"21:15",ch:"beIN SPORTS 3",com:"عبدالله الغامدي"},
-    {home:"القوة الجوية",away:"الغرافة",time:"21:15",ch:"beIN SPORTS 1",com:"احمد البلوشي"},
+    {home:"شباب الأهلي",away:"القادسية",time:"19:00",ch:"beIN SPORTS 2",com:"احمد البلوشي"},
+    {home:"النصر",away:"السد",time:"21:15",ch:"beIN SPORTS 2",com:"علي الكعبي"},
+  ]},
+  {id:"ucl",name:"دوري أبطال أوروبا",round:"الدوري — الجولة 5",icon:"⭐",color:"#1f4fa8",matches:[
+    {home:"غلطة سراي",away:"أستون فيلا",time:"20:45",ch:"beIN SPORTS 3",com:"عصام الشوالي"},
+    {home:"بودو / غليمت",away:"لاسك لينتس",time:"20:45",ch:"beIN SPORTS 4",com:"احمد عبده"},
+    {home:"ريال مدريد",away:"أيندهوفن",time:"23:00",ch:"beIN SPORTS 1",com:"عامر الخوذيري",fav:true},
+    {home:"مانشستر سيتي",away:"نابولي",time:"23:00",ch:"beIN SPORTS 3",com:"حفيظ دراجي"},
+    {home:"آرسنال",away:"بوروسيا دورتموند",time:"23:00",ch:"beIN SPORTS 4",com:"حسن العيدروس"},
+    {home:"كومو",away:"أيك أثينا",time:"23:00",ch:"beIN SPORTS 5",com:"محمد نضال"},
+    {home:"فينورد",away:"بورتو",time:"23:00",ch:"beIN SPORTS 6",com:"علي محمد علي"},
+    {home:"لايبزيغ",away:"لانس",time:"23:00",ch:"beIN SPORTS 8",com:"محمد مبروكي"},
+    {home:"سلوفان",away:"ريال بيتيس",time:"23:00",ch:"beIN SPORTS 9",com:"جواد بدة"},
+  ]},
+  {id:"acl2",name:"دوري أبطال آسيا 2",round:"الجولة 5",icon:"🏅",color:"#2a8fd6",matches:[
+    {home:"إيست بنغال",away:"الحسين",time:"19:00",ch:"beIN SPORTS 1",com:"احمد فؤاد"},
+    {home:"السيب",away:"الشرطة",time:"21:15",ch:"beIN SPORTS 1",com:"عبدالله الغامدي"},
+  ]},
+  {id:"gcc",name:"كأس الخليج للأندية",round:"الجولة 4",icon:"🌊",color:"#c2439a",matches:[
+    {home:"الرفاع",away:"الزوراء",time:"17:30",ch:"الكاس 6",com:"سمير المعيرفي"},
+    {home:"عجمان",away:"الاتفاق",time:"18:30",ch:"الكاس 6",com:"جابر المري"},
+    {home:"الدحيل",away:"نيوم",time:"20:00",ch:"الكاس 6",com:"احمد الطيب"},
+  ]},
+]};
+/* 🗄️ الأرشيف — الأحدث أولًا */
+const ARCHIVE = [
+ {day:"2026-11-23", leagues:[
+  {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
+    {home:"نفتشي",away:"الهلال",time:"16:45",ch:"beIN SPORTS 1",com:"عصام الشوالي",fav:true,s:null},
+    {home:"الشمال",away:"الأهلي",time:"19:00",ch:"beIN SPORTS 1",com:"حفيظ دراجي",s:null},
+    {home:"العين",away:"استقلال",time:"19:00",ch:"beIN SPORTS 2",com:"علي الكعبي",s:null},
+    {home:"تراكتور",away:"الوصل",time:"19:00",ch:"beIN SPORTS 3",com:"حسن العيدروس",s:null},
+    {home:"الاتحاد",away:"باختاكور",time:"21:15",ch:"beIN SPORTS 3",com:"عبدالله الغامدي",s:null},
+    {home:"القوة الجوية",away:"الغرافة",time:"21:15",ch:"beIN SPORTS 1",com:"احمد البلوشي",s:null},
   ]},
   {id:"epl",name:"الدوري الإنجليزي",round:"الجولة 11",icon:"🦁",color:"#3d195b",matches:[
-    {home:"برينتفورد",away:"إيفرتون",time:"23:00",ch:"beIN SPORTS 2",com:"علي محمد علي"},
+    {home:"برينتفورد",away:"إيفرتون",time:"23:00",ch:"beIN SPORTS 2",com:"علي محمد علي",s:null},
   ]},
   {id:"laliga",name:"الدوري الإسباني",round:"الجولة 13",icon:"🇪🇸",color:"#e8341c",matches:[
-    {home:"ليفانتي",away:"التشي",time:"23:00",ch:"beIN SPORTS 4",com:"نوفل باشي"},
+    {home:"ليفانتي",away:"التشي",time:"23:00",ch:"beIN SPORTS 4",com:"نوفل باشي",s:null},
   ]},
   {id:"seriea",name:"الدوري الإيطالي",round:"الجولة 12",icon:"🇮🇹",color:"#1a73e8",matches:[
-    {home:"مونزا",away:"فيورنتينا",time:"22:45",ch:"STARZPLAY",com:"احمد الخير"},
+    {home:"مونزا",away:"فيورنتينا",time:"22:45",ch:"STARZPLAY",com:"احمد الخير",s:null},
   ]},
+ ]},
 ];
+let DAY = TODAY.day, LEAGUES = TODAY.leagues, VIEW = 0; // 0 = اليوم، 1.. = أيام الأرشيف
 /* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
-const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png"};
+const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png", "شباب الأهلي": "local:logos/shababahli.svg", "القادسية": "local:logos/qadsiah.svg", "النصر": "local:logos/alnassr.svg", "السد": "local:logos/alsadd.svg", "غلطة سراي": "local:logos/galatasaray.png", "أستون فيلا": "local:logos/astonvilla.png", "بودو / غليمت": "local:logos/bodo.png", "لاسك لينتس": "local:logos/lask.png", "ريال مدريد": "local:logos/realmadrid.png", "أيندهوفن": "local:logos/psv.png", "مانشستر سيتي": "local:logos/mancity.png", "نابولي": "local:logos/napoli.png", "آرسنال": "local:logos/arsenal.png", "بوروسيا دورتموند": "local:logos/dortmund.png", "كومو": "local:logos/como.png", "أيك أثينا": "local:logos/aek.png", "فينورد": "local:logos/feyenoord.png", "بورتو": "local:logos/porto.png", "لايبزيغ": "local:logos/leipzig.png", "لانس": "local:logos/lens.png", "سلوفان": "local:logos/slovan.svg", "ريال بيتيس": "local:logos/betis.png", "إيست بنغال": "local:logos/eastbengal.svg", "الحسين": "local:logos/alhussein.svg", "الشرطة": "local:logos/alshorta.svg", "الزوراء": "local:logos/alzawraa.svg", "عجمان": "local:logos/ajman.svg", "الاتفاق": "local:logos/ettifaq.svg", "الدحيل": "local:logos/duhail.svg", "نيوم": "local:logos/neom.svg"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
 /* 🌐 مصادر بث عامة مرخّصة يراها كل الزوار (HLS ‎.m3u8 عبر https فقط)
    المفتاح: اسم القناة كما في ch، أو "الفريق المضيف|الفريق الضيف" لمباراة بعينها.
@@ -230,7 +277,14 @@ async function fetchLogos(){
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 let filter="all";
-dateLine.textContent=new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Riyadh"}).format(ksaDate("12:00"));
+const fmtDay=()=>new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Riyadh"}).format(ksaDate("12:00"));
+dateLine.textContent=fmtDay();
+const shortDay=d=>new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{day:"numeric",month:"short",timeZone:"Asia/Riyadh"}).format(new Date(d+"T12:00:00+03:00"));
+function dayTabs(){
+  const all=[TODAY,...ARCHIVE];
+  days.innerHTML=all.map((d,i)=>`<button class="${VIEW===i?"on":""}" data-i="${i}">${i===0?"اليوم":i===1?"أمس":"قبل "+i+" أيام"}<small>${shortDay(d.day)}</small></button>`).join("");
+  days.querySelectorAll("button").forEach(b=>b.onclick=()=>{VIEW=+b.dataset.i;const d=all[VIEW];DAY=d.day;LEAGUES=d.leagues;filter="all";closePlayer();dateLine.textContent=fmtDay();hDay.textContent=VIEW===0?"اليوم":VIEW===1?"أمس":"سابقة";dayTabs();render()});
+}
 
 function chips(){
   const all=[{id:"all",name:"الكل"},{id:"live",name:"🔴 مباشر"},...LEAGUES];
@@ -238,13 +292,14 @@ function chips(){
   document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{filter=b.dataset.id;render()});
 }
 function card(m,i){
-  const st=status(m),[t,p]=to12(m.time);
+  const st=status(m),[t,p]=to12(m.time),done=st==="end"&&Array.isArray(m.s);
+  const res=done?(m.s[0]>m.s[1]?["win","lose"]:m.s[0]<m.s[1]?["lose","win"]:["",""]):["",""];
   const badge=st==="live"?'<span class="badge b-live"><i></i>مباشر</span>':st==="end"?'<span class="badge b-end">انتهت</span>':'<span class="badge b-up">لم تبدأ</span>';
   return`<article class="match glass ${m.fav?"fav":""}" style="animation-delay:${i*40}ms">
     <div class="row">
-      <div class="team">${crest(m.home)}<span>${esc(m.home)}${m.fav&&/الهلال/.test(m.home)?" ⭐":""}</span></div>
-      <div class="mid"><div class="time">${t}<small>${p}</small></div>${badge}${st==="up"?`<span class="countdown">${left(m)}</span>`:""}</div>
-      <div class="team">${crest(m.away)}<span>${esc(m.away)}${m.fav&&/الهلال/.test(m.away)?" ⭐":""}</span></div>
+      <div class="team ${res[0]}">${crest(m.home)}<span>${esc(m.home)}${m.fav&&/الهلال|ريال مدريد/.test(m.home)?" ⭐":""}</span></div>
+      <div class="mid">${done?`<div class="score">${m.s[0]}<i>–</i>${m.s[1]}</div><span class="badge b-ft">انتهت · ${t}${p}</span>`:VIEW&&st==="end"?`<div class="score"><span class="tbd">– : –</span></div><span class="badge b-ft">بانتظار النتيجة</span>`:`<div class="time">${t}<small>${p}</small></div>${badge}`}${st==="up"?`<span class="countdown">${left(m)}</span>`:""}</div>
+      <div class="team ${res[1]}">${crest(m.away)}<span>${esc(m.away)}${m.fav&&/الهلال|ريال مدريد/.test(m.away)?" ⭐":""}</span></div>
     </div>
     <div class="meta"><span class="pill ch">${ICON.tv}<span class="${/[a-z]/i.test(m.ch)?"en":""}">${esc(m.ch)}</span></span><span class="pill">${ICON.mic}${esc(m.com)}</span>${sourceFor(m)&&st!=="end"?`<button class="watch" data-key="${esc(keyOf(m))}">${ICON.play}مشاهدة</button>`:""}</div>
   </article>`;
@@ -258,7 +313,11 @@ function render(){
   if(!c.up&&!c.live&&c.end){sUp.textContent=c.end;sUp.nextElementSibling.textContent="انتهت"}
   else{sUp.textContent=c.up;sUp.nextElementSibling.textContent="قادمة"}
   const today=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Riyadh"}).format(new Date());
-  banner.innerHTML=today>DAY?`<div class="banner glass">📅 هذا جدول ${esc(dateLine.textContent)} — لم يُحدَّث جدول اليوم بعد.</div>`:"";
+  banner.innerHTML=!VIEW&&today>DAY?`<div class="banner glass">📅 هذا جدول ${esc(dateLine.textContent)} — لم يُحدَّث جدول اليوم بعد.</div>`:"";
+  const fin=flat.filter(m=>Array.isArray(m.s));
+  if(VIEW){const goals=fin.reduce((a,m)=>a+m.s[0]+m.s[1],0),draws=fin.filter(m=>m.s[0]===m.s[1]).length;
+    recap.innerHTML=fin.length?`<div class="recap glass"><div><b>${goals}</b><span>هدف</span></div><div><b>${fin.length?(goals/fin.length).toFixed(1):0}</b><span>معدل الأهداف</span></div><div><b>${draws}</b><span>تعادل</span></div></div>`:`<div class="banner glass">🗂️ أرشيف ${esc(fmtDay())} — النتائج تُضاف قريبًا.</div>`;
+  }else recap.innerHTML="";
   if(openPlayer)return; // لا نعيد بناء القائمة أثناء المشاهدة حتى لا ينقطع البث
   chips();
   let i=0;
@@ -388,6 +447,7 @@ admClose.onclick=()=>{admin.close();history.replaceState(null,"",location.pathna
 const checkHash=()=>{if(location.hash==="#admin"&&!admin.open){admin.showModal();renderChannels();renderMap()}};
 addEventListener("hashchange",checkHash);
 
+dayTabs();
 render();
 fetchLogos();
 setInterval(render,60000);
