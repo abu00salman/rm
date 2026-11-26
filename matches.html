@@ -201,57 +201,90 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
    time: 24 ساعة بتوقيت السعودية · fav: true لإبراز المباراة
    s:[أهداف المضيف, أهداف الضيف] — النتيجة النهائية (اتركها null حتى تُعرف)
    كل يوم جديد: انقل جدول TODAY إلى أعلى ARCHIVE وأضف النتائج، ثم ضع جدول اليوم */
-const TODAY = {day:"2026-11-24", leagues:[
-  {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
-    {home:"شباب الأهلي",away:"القادسية",time:"19:00",ch:"beIN SPORTS 2",com:"احمد البلوشي"},
-    {home:"النصر",away:"السد",time:"21:15",ch:"beIN SPORTS 2",com:"علي الكعبي"},
+const TODAY = {day:"2026-11-26", leagues:[
+  {id:"spl",name:"دوري روشن السعودي",round:"الجولة 13",icon:"🇸🇦",color:"#1b8a5a",matches:[
+    {home:"الفتح",away:"الرياض",time:"17:25",ch:"ثمانية",com:"جعفر الصليح"},
+    {home:"أبها",away:"الشباب",time:"18:05",ch:"ثمانية",com:"مشاري القرني"},
+    {home:"الفيصلي",away:"الدرعية",time:"20:30",ch:"ثمانية",com:"خالد المديفر"},
   ]},
-  {id:"ucl",name:"دوري أبطال أوروبا",round:"الدوري — الجولة 5",icon:"⭐",color:"#1f4fa8",matches:[
-    {home:"غلطة سراي",away:"أستون فيلا",time:"20:45",ch:"beIN SPORTS 3",com:"عصام الشوالي"},
-    {home:"بودو / غليمت",away:"لاسك لينتس",time:"20:45",ch:"beIN SPORTS 4",com:"احمد عبده"},
-    {home:"ريال مدريد",away:"أيندهوفن",time:"23:00",ch:"beIN SPORTS 1",com:"عامر الخوذيري",fav:true},
-    {home:"مانشستر سيتي",away:"نابولي",time:"23:00",ch:"beIN SPORTS 3",com:"حفيظ دراجي"},
-    {home:"آرسنال",away:"بوروسيا دورتموند",time:"23:00",ch:"beIN SPORTS 4",com:"حسن العيدروس"},
-    {home:"كومو",away:"أيك أثينا",time:"23:00",ch:"beIN SPORTS 5",com:"محمد نضال"},
-    {home:"فينورد",away:"بورتو",time:"23:00",ch:"beIN SPORTS 6",com:"علي محمد علي"},
-    {home:"لايبزيغ",away:"لانس",time:"23:00",ch:"beIN SPORTS 8",com:"محمد مبروكي"},
-    {home:"سلوفان",away:"ريال بيتيس",time:"23:00",ch:"beIN SPORTS 9",com:"جواد بدة"},
+  {id:"uecl",name:"دوري المؤتمر الأوروبي",round:"الجولة 4",icon:"🟢",color:"#16a34a",matches:[
+    {home:"كايرات",away:"ميالبي",time:"18:30",ch:"beIN SPORTS 2",com:"محمد بركات"},
+    {home:"أياكس أمستردام",away:"ثون",time:"20:45",ch:"beIN SPORTS 9",com:"أحمد عبده"},
+    {home:"برايتون",away:"كرايوفا",time:"20:45",ch:"beIN SPORTS 2",com:"أحمد فؤاد"},
+    {home:"إيبيريا",away:"خيتافي",time:"20:45",ch:"beIN SPORTS XTRA 1",com:"محمد المبروكي"},
+    {home:"فرايبورغ",away:"تفينتي أنشخيده",time:"23:00",ch:"beIN SPORTS 7",com:"بكر علوان"},
+    {home:"بوراك",away:"أتالانتا",time:"23:00",ch:"beIN SPORTS 8",com:"حسن العيدروس"},
+    {home:"سسكا صوفيا",away:"طرابزون سبور",time:"23:00",ch:"beIN SPORTS 1",com:"جواد بدة"},
   ]},
-  {id:"acl2",name:"دوري أبطال آسيا 2",round:"الجولة 5",icon:"🏅",color:"#2a8fd6",matches:[
-    {home:"إيست بنغال",away:"الحسين",time:"19:00",ch:"beIN SPORTS 1",com:"احمد فؤاد"},
-    {home:"السيب",away:"الشرطة",time:"21:15",ch:"beIN SPORTS 1",com:"عبدالله الغامدي"},
-  ]},
-  {id:"gcc",name:"كأس الخليج للأندية",round:"الجولة 4",icon:"🌊",color:"#c2439a",matches:[
-    {home:"الرفاع",away:"الزوراء",time:"17:30",ch:"الكاس 6",com:"سمير المعيرفي"},
-    {home:"عجمان",away:"الاتفاق",time:"18:30",ch:"الكاس 6",com:"جابر المري"},
-    {home:"الدحيل",away:"نيوم",time:"20:00",ch:"الكاس 6",com:"احمد الطيب"},
+  {id:"uel",name:"الدوري الأوروبي",round:"الجولة 5",icon:"🟠",color:"#f07a1a",matches:[
+    {home:"أولمبياكوس",away:"ميلان",time:"20:45",ch:"beIN SPORTS 1",com:"عصام الشوالي"},
+    {home:"مارسيليا",away:"ليفسكي",time:"20:45",ch:"beIN SPORTS 4",com:"عبدالله الغامدي"},
+    {home:"فيكتوريا بيلزن",away:"بنفيكا",time:"20:45",ch:"beIN SPORTS 8",com:"منتصر الأزهري"},
+    {home:"دينامو زغرب",away:"باير ليفركوزن",time:"20:45",ch:"beIN SPORTS 6",com:"أحمد سوكو"},
+    {home:"سالزبورغ",away:"أرارات أرمينيا",time:"20:45",ch:"beIN SPORTS XTRA 2",com:"عامر الخوذيري"},
+    {home:"سيلتا فيغو",away:"بورنموث",time:"20:45",ch:"beIN SPORTS 3",com:"نوفل باشي"},
+    {home:"يوفنتوس",away:"نيقوسيا",time:"23:00",ch:"beIN SPORTS 2",com:"علي محمد علي"},
+    {home:"ليون",away:"ليلستروم",time:"23:00",ch:"beIN SPORTS 5",com:"عامر الخوذيري"},
+    {home:"سبارتا براغ",away:"ألكمار",time:"23:00",ch:"beIN SPORTS XTRA 1",com:"محمد نضال"},
+    {home:"كريستال بالاس",away:"ريال سوسيداد",time:"23:00",ch:"beIN SPORTS 3",com:"محمد بركات"},
+    {home:"سندرلاند",away:"بياليستوك",time:"23:00",ch:"beIN SPORTS 4",com:"سمير اليعقوبي"},
+    {home:"هوفنهايم",away:"شتورم غراتس",time:"23:00",ch:"beIN SPORTS XTRA 4",com:"عبدالله الغامدي"},
+    {home:"تورينسي",away:"سيلتك",time:"23:00",ch:"beIN SPORTS 9",com:"محمد السعدي"},
+    {home:"نيميخن",away:"رين",time:"23:00",ch:"beIN SPORTS 6",com:"أحمد البلوشي"},
+    {home:"أوفي كريت",away:"أندرلخت",time:"23:00",ch:"beIN SPORTS XTRA 3",com:"أحمد فؤاد"},
   ]},
 ]};
 /* 🗄️ الأرشيف — الأحدث أولًا */
 const ARCHIVE = [
+ {day:"2026-11-24", leagues:[
+  {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
+    {home:"شباب الأهلي",away:"القادسية",time:"19:00",ch:"beIN SPORTS 2",com:"احمد البلوشي",s:[1,5]},
+    {home:"النصر",away:"السد",time:"21:15",ch:"beIN SPORTS 2",com:"علي الكعبي",s:[2,1]},
+  ]},
+  {id:"ucl",name:"دوري أبطال أوروبا",round:"الدوري — الجولة 5",icon:"⭐",color:"#1f4fa8",matches:[
+    {home:"غلطة سراي",away:"أستون فيلا",time:"20:45",ch:"beIN SPORTS 3",com:"عصام الشوالي",s:[1,0]},
+    {home:"بودو / غليمت",away:"لاسك لينتس",time:"20:45",ch:"beIN SPORTS 4",com:"احمد عبده",s:[1,0]},
+    {home:"ريال مدريد",away:"أيندهوفن",time:"23:00",ch:"beIN SPORTS 1",com:"عامر الخوذيري",fav:true,s:[5,1]},
+    {home:"مانشستر سيتي",away:"نابولي",time:"23:00",ch:"beIN SPORTS 3",com:"حفيظ دراجي",s:[2,2]},
+    {home:"آرسنال",away:"بوروسيا دورتموند",time:"23:00",ch:"beIN SPORTS 4",com:"حسن العيدروس",s:[1,1]},
+    {home:"كومو",away:"أيك أثينا",time:"23:00",ch:"beIN SPORTS 5",com:"محمد نضال",s:[1,0]},
+    {home:"فينورد",away:"بورتو",time:"23:00",ch:"beIN SPORTS 6",com:"علي محمد علي",s:[0,1]},
+    {home:"لايبزيغ",away:"لانس",time:"23:00",ch:"beIN SPORTS 8",com:"محمد مبروكي",s:[3,1]},
+    {home:"سلوفان",away:"ريال بيتيس",time:"23:00",ch:"beIN SPORTS 9",com:"جواد بدة",s:[0,2]},
+  ]},
+  {id:"acl2",name:"دوري أبطال آسيا 2",round:"الجولة 5",icon:"🏅",color:"#2a8fd6",matches:[
+    {home:"إيست بنغال",away:"الحسين",time:"19:00",ch:"beIN SPORTS 1",com:"احمد فؤاد",s:null},
+    {home:"السيب",away:"الشرطة",time:"21:15",ch:"beIN SPORTS 1",com:"عبدالله الغامدي",s:[2,0]},
+  ]},
+  {id:"gcc",name:"كأس الخليج للأندية",round:"الجولة 4",icon:"🌊",color:"#c2439a",matches:[
+    {home:"الرفاع",away:"الزوراء",time:"17:30",ch:"الكاس 6",com:"سمير المعيرفي",s:null},
+    {home:"عجمان",away:"الاتفاق",time:"18:30",ch:"الكاس 6",com:"جابر المري",s:null},
+    {home:"الدحيل",away:"نيوم",time:"20:00",ch:"الكاس 6",com:"احمد الطيب",s:null},
+  ]},
+ ]},
  {day:"2026-11-23", leagues:[
   {id:"acle",name:"دوري أبطال آسيا للنخبة",round:"الدوري — الجولة 5",icon:"🏆",color:"#7b5cd6",matches:[
-    {home:"نفتشي",away:"الهلال",time:"16:45",ch:"beIN SPORTS 1",com:"عصام الشوالي",fav:true,s:null},
-    {home:"الشمال",away:"الأهلي",time:"19:00",ch:"beIN SPORTS 1",com:"حفيظ دراجي",s:null},
-    {home:"العين",away:"استقلال",time:"19:00",ch:"beIN SPORTS 2",com:"علي الكعبي",s:null},
+    {home:"نفتشي",away:"الهلال",time:"16:45",ch:"beIN SPORTS 1",com:"عصام الشوالي",fav:true,s:[2,2]},
+    {home:"الشمال",away:"الأهلي",time:"19:00",ch:"beIN SPORTS 1",com:"حفيظ دراجي",s:[3,2]},
+    {home:"العين",away:"استقلال",time:"19:00",ch:"beIN SPORTS 2",com:"علي الكعبي",s:[1,1]},
     {home:"تراكتور",away:"الوصل",time:"19:00",ch:"beIN SPORTS 3",com:"حسن العيدروس",s:null},
-    {home:"الاتحاد",away:"باختاكور",time:"21:15",ch:"beIN SPORTS 3",com:"عبدالله الغامدي",s:null},
+    {home:"الاتحاد",away:"باختاكور",time:"21:15",ch:"beIN SPORTS 3",com:"عبدالله الغامدي",s:[2,0]},
     {home:"القوة الجوية",away:"الغرافة",time:"21:15",ch:"beIN SPORTS 1",com:"احمد البلوشي",s:null},
   ]},
   {id:"epl",name:"الدوري الإنجليزي",round:"الجولة 11",icon:"🦁",color:"#3d195b",matches:[
-    {home:"برينتفورد",away:"إيفرتون",time:"23:00",ch:"beIN SPORTS 2",com:"علي محمد علي",s:null},
+    {home:"برينتفورد",away:"إيفرتون",time:"23:00",ch:"beIN SPORTS 2",com:"علي محمد علي",s:[4,0]},
   ]},
   {id:"laliga",name:"الدوري الإسباني",round:"الجولة 13",icon:"🇪🇸",color:"#e8341c",matches:[
-    {home:"ليفانتي",away:"التشي",time:"23:00",ch:"beIN SPORTS 4",com:"نوفل باشي",s:null},
+    {home:"ليفانتي",away:"التشي",time:"23:00",ch:"beIN SPORTS 4",com:"نوفل باشي",s:[1,1]},
   ]},
   {id:"seriea",name:"الدوري الإيطالي",round:"الجولة 12",icon:"🇮🇹",color:"#1a73e8",matches:[
-    {home:"مونزا",away:"فيورنتينا",time:"22:45",ch:"STARZPLAY",com:"احمد الخير",s:null},
+    {home:"مونزا",away:"فيورنتينا",time:"22:45",ch:"STARZPLAY",com:"احمد الخير",s:[3,0]},
   ]},
  ]},
 ];
 let DAY = TODAY.day, LEAGUES = TODAY.leagues, VIEW = 0; // 0 = اليوم، 1.. = أيام الأرشيف
 /* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
-const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png", "شباب الأهلي": "local:logos/shababahli.svg", "القادسية": "local:logos/qadsiah.svg", "النصر": "local:logos/alnassr.svg", "السد": "local:logos/alsadd.svg", "غلطة سراي": "local:logos/galatasaray.png", "أستون فيلا": "local:logos/astonvilla.png", "بودو / غليمت": "local:logos/bodo.png", "لاسك لينتس": "local:logos/lask.png", "ريال مدريد": "local:logos/realmadrid.png", "أيندهوفن": "local:logos/psv.png", "مانشستر سيتي": "local:logos/mancity.png", "نابولي": "local:logos/napoli.png", "آرسنال": "local:logos/arsenal.png", "بوروسيا دورتموند": "local:logos/dortmund.png", "كومو": "local:logos/como.png", "أيك أثينا": "local:logos/aek.png", "فينورد": "local:logos/feyenoord.png", "بورتو": "local:logos/porto.png", "لايبزيغ": "local:logos/leipzig.png", "لانس": "local:logos/lens.png", "سلوفان": "local:logos/slovan.svg", "ريال بيتيس": "local:logos/betis.png", "إيست بنغال": "local:logos/eastbengal.svg", "الحسين": "local:logos/alhussein.svg", "الشرطة": "local:logos/alshorta.svg", "الزوراء": "local:logos/alzawraa.svg", "عجمان": "local:logos/ajman.svg", "الاتفاق": "local:logos/ettifaq.svg", "الدحيل": "local:logos/duhail.svg", "نيوم": "local:logos/neom.svg"};
+const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png", "شباب الأهلي": "local:logos/shababahli.svg", "القادسية": "local:logos/qadsiah.svg", "النصر": "local:logos/alnassr.svg", "السد": "local:logos/alsadd.svg", "غلطة سراي": "local:logos/galatasaray.png", "أستون فيلا": "local:logos/astonvilla.png", "بودو / غليمت": "local:logos/bodo.png", "لاسك لينتس": "local:logos/lask.png", "ريال مدريد": "local:logos/realmadrid.png", "أيندهوفن": "local:logos/psv.png", "مانشستر سيتي": "local:logos/mancity.png", "نابولي": "local:logos/napoli.png", "آرسنال": "local:logos/arsenal.png", "بوروسيا دورتموند": "local:logos/dortmund.png", "كومو": "local:logos/como.png", "أيك أثينا": "local:logos/aek.png", "فينورد": "local:logos/feyenoord.png", "بورتو": "local:logos/porto.png", "لايبزيغ": "local:logos/leipzig.png", "لانس": "local:logos/lens.png", "سلوفان": "local:logos/slovan.svg", "ريال بيتيس": "local:logos/betis.png", "إيست بنغال": "local:logos/eastbengal.svg", "الحسين": "local:logos/alhussein.svg", "الشرطة": "local:logos/alshorta.svg", "الزوراء": "local:logos/alzawraa.svg", "عجمان": "local:logos/ajman.svg", "الاتفاق": "local:logos/ettifaq.svg", "الدحيل": "local:logos/duhail.svg", "نيوم": "local:logos/neom.svg", "الفتح": "local:logos/fateh.svg", "الرياض": "local:logos/alriyadh.svg", "أبها": "local:logos/abha.svg", "الشباب": "local:logos/alshabab.svg", "كايرات": "local:logos/kairat.svg", "ميالبي": "local:logos/mjallby.svg", "أياكس أمستردام": "local:logos/ajax.png", "ثون": "local:logos/thun.png", "برايتون": "local:logos/brighton.png", "كرايوفا": "local:logos/craiova.png", "إيبيريا": "local:logos/iberia.svg", "خيتافي": "local:logos/getafe.png", "فرايبورغ": "local:logos/freiburg.png", "تفينتي أنشخيده": "local:logos/twente.png", "بوراك": "local:logos/borac.svg", "أتالانتا": "local:logos/atalanta.png", "سسكا صوفيا": "local:logos/cskasofia.svg", "طرابزون سبور": "local:logos/trabzonspor.png", "أولمبياكوس": "local:logos/olympiacos.svg", "ميلان": "local:logos/milan.png", "مارسيليا": "local:logos/marseille.png", "ليفسكي": "local:logos/levski.svg", "فيكتوريا بيلزن": "local:logos/plzen.png", "بنفيكا": "local:logos/benfica.png", "دينامو زغرب": "local:logos/dinamozagreb.svg", "باير ليفركوزن": "local:logos/leverkusen.png", "سالزبورغ": "local:logos/salzburg.png", "أرارات أرمينيا": "local:logos/ararat.svg", "سيلتا فيغو": "local:logos/celta.png", "بورنموث": "local:logos/bournemouth.png", "يوفنتوس": "local:logos/juventus.png", "ليون": "local:logos/lyon.png", "ليلستروم": "local:logos/lillestrom.png", "سبارتا براغ": "local:logos/sparta.png", "ألكمار": "local:logos/az.png", "كريستال بالاس": "local:logos/palace.png", "ريال سوسيداد": "local:logos/sociedad.png", "سندرلاند": "local:logos/sunderland.png", "بياليستوك": "local:logos/jagiellonia.svg", "هوفنهايم": "local:logos/hoffenheim.png", "شتورم غراتس": "local:logos/sturm.svg", "تورينسي": "local:logos/torreense.svg", "سيلتك": "local:logos/celtic.svg", "نيميخن": "local:logos/nec.png", "رين": "local:logos/rennes.svg", "أوفي كريت": "local:logos/ofi.svg", "أندرلخت": "local:logos/anderlecht.svg"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
 /* 🌐 مصادر بث عامة مرخّصة يراها كل الزوار (HLS ‎.m3u8 عبر https فقط)
    المفتاح: اسم القناة كما في ch، أو "الفريق المضيف|الفريق الضيف" لمباراة بعينها.
@@ -291,10 +324,11 @@ let filter="all";
 const fmtDay=()=>new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Riyadh"}).format(ksaDate("12:00"));
 dateLine.textContent=fmtDay();
 const shortDay=d=>new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-latn",{day:"numeric",month:"short",timeZone:"Asia/Riyadh"}).format(new Date(d+"T12:00:00+03:00"));
+const wkDay=d=>new Intl.DateTimeFormat("ar-SA",{weekday:"long",timeZone:"Asia/Riyadh"}).format(new Date(d+"T12:00:00+03:00"));
 function dayTabs(){
   const all=[TODAY,...ARCHIVE];
-  days.innerHTML=all.map((d,i)=>`<button class="${VIEW===i?"on":""}" data-i="${i}">${i===0?"اليوم":i===1?"أمس":"قبل "+i+" أيام"}<small>${shortDay(d.day)}</small></button>`).join("");
-  days.querySelectorAll("button").forEach(b=>b.onclick=()=>{VIEW=+b.dataset.i;const d=all[VIEW];DAY=d.day;LEAGUES=d.leagues;filter="all";closePlayer();dateLine.textContent=fmtDay();hDay.textContent=VIEW===0?"اليوم":VIEW===1?"أمس":"سابقة";dayTabs();render()});
+  days.innerHTML=all.map((d,i)=>`<button class="${VIEW===i?"on":""}" data-i="${i}">${i===0?"اليوم":wkDay(d.day)}<small>${shortDay(d.day)}</small></button>`).join("");
+  days.querySelectorAll("button").forEach(b=>b.onclick=()=>{VIEW=+b.dataset.i;const d=all[VIEW];DAY=d.day;LEAGUES=d.leagues;filter="all";closePlayer();dateLine.textContent=fmtDay();hDay.textContent=VIEW===0?"اليوم":wkDay(DAY);dayTabs();render()});
 }
 
 function chips(){
