@@ -201,30 +201,67 @@ dialog::backdrop{background:rgba(5,7,10,.55);backdrop-filter:blur(8px)}
    time: 24 ساعة بتوقيت السعودية · fav: true لإبراز المباراة
    s:[أهداف المضيف, أهداف الضيف] — النتيجة النهائية (اتركها null حتى تُعرف)
    كل يوم جديد: انقل جدول TODAY إلى أعلى ARCHIVE وأضف النتائج، ثم ضع جدول اليوم */
-const TODAY = {day:"2026-11-27", leagues:[
+const TODAY = {day:"2026-11-28", leagues:[
   {id:"spl",name:"دوري روشن السعودي",round:"الجولة 13",icon:"🇸🇦",color:"#1b8a5a",matches:[
-    {home:"الخلود",away:"الخليج",time:"15:15",ch:"ثمانية",com:"سلطان الحربي"},
-    {home:"القادسية",away:"الفيحاء",time:"17:20",ch:"ثمانية",com:"سعد يحيى"},
-    {home:"الاتحاد",away:"نيوم",time:"20:30",ch:"ثمانية",com:"فارس عوض"},
+    {home:"الحزم",away:"النصر",time:"15:15",ch:"ثمانية",com:"فارس عوض"},
+    {home:"الاتفاق",away:"الهلال",time:"17:20",ch:"ثمانية",com:"مشاري القرني",fav:true},
+    {home:"الأهلي",away:"التعاون",time:"20:30",ch:"ثمانية",com:"فارس عوض"},
   ]},
   {id:"epl",name:"الدوري الإنجليزي",round:"الجولة 12",icon:"🦁",color:"#3d195b",matches:[
-    {home:"نوتنغهام",away:"تشيلسي",time:"23:00",ch:"beIN SPORTS 1",com:"عامر الخوذيري"},
+    {home:"مانشستر يونايتد",away:"برينتفورد",time:"18:00",ch:"beIN SPORTS 1",com:"عبدالله الغامدي"},
+    {home:"ليدز يونايتد",away:"كوفنتري سيتي",time:"18:00",ch:"beIN SPORTS 6",com:"منتصر الأزهري"},
+    {home:"إبسويتش",away:"أستون فيلا",time:"20:30",ch:"beIN SPORTS 1",com:"أحمد البلوشي"},
   ]},
   {id:"laliga",name:"الدوري الإسباني",round:"الجولة 14",icon:"🇪🇸",color:"#e8341c",matches:[
-    {home:"ليفانتي",away:"راسينغ",time:"23:00",ch:"beIN SPORTS 3",com:"احمد عبده"},
-  ]},
-  {id:"ligue1",name:"الدوري الفرنسي",round:"الجولة 12",icon:"🇫🇷",color:"#0b3d91",matches:[
-    {home:"بريست",away:"باريس إف سي",time:"22:45",ch:"beIN SPORTS 2",com:"نوفل باشي"},
-  ]},
-  {id:"bundes",name:"الدوري الألماني",round:"الجولة 11",icon:"🇩🇪",color:"#d20515",matches:[
-    {home:"فيردر بريمن",away:"مونشنغلادباخ",time:"22:30",ch:"شاهد",com:"عائد العصيمي"},
+    {home:"ريال بيتيس",away:"رايو فاليكانو",time:"16:00",ch:"beIN SPORTS 5",com:"أحمد البلوشي"},
+    {home:"ملقا",away:"أتلتيك بلباو",time:"18:15",ch:"beIN SPORTS 5",com:"عامر الخوذيري"},
+    {home:"إلتشي",away:"أتلتيكو مدريد",time:"20:30",ch:"beIN SPORTS 5",com:"محمد مبروكي"},
+    {home:"ريال مدريد",away:"ألافيس",time:"23:00",ch:"beIN SPORTS 1",com:"علي محمد علي",fav:true},
   ]},
   {id:"seriea",name:"الدوري الإيطالي",round:"الجولة 13",icon:"🇮🇹",color:"#1a73e8",matches:[
-    {home:"فينيزيا",away:"بولونيا",time:"22:45",ch:"STARZPLAY",com:"حازم عبد السلام"},
+    {home:"فروسينوني",away:"بارما",time:"17:00",ch:"STARZPLAY",com:"احمد الحامد"},
+    {home:"تورينو",away:"لاتسيو",time:"20:00",ch:"STARZPLAY",com:"محمد الشامسي"},
+    {home:"إنتر ميلان",away:"جنوى",time:"22:45",ch:"STARZPLAY",com:"عبدالله السعدي"},
+  ]},
+  {id:"bundes",name:"الدوري الألماني",round:"الجولة 11",icon:"🇩🇪",color:"#d20515",matches:[
+    {home:"هامبورغ",away:"بايرن ميونخ",time:"17:30",ch:"شاهد",com:"عصام عبده"},
+    {home:"ماينتس",away:"يونيون برلين",time:"17:30",ch:"شاهد",com:"فهد عريشي"},
+    {home:"بادربورن",away:"شالكه",time:"17:30",ch:"MBC Action",com:"عبدالله الشهري"},
+    {home:"شتوتغارت",away:"فرانكفورت",time:"20:30",ch:"شاهد",com:"نور الدين علي"},
+  ]},
+  {id:"ligue1",name:"الدوري الفرنسي",round:"الجولة 13",icon:"🇫🇷",color:"#0b3d91",matches:[
+    {home:"أنجيه",away:"لانس",time:"19:15",ch:"beIN SPORTS 4",com:"سمير اليعقوبي"},
+    {home:"باريس سان جيرمان",away:"لوريان",time:"22:45",ch:"beIN SPORTS 4",com:"عامر الخوذيري"},
+    {home:"لومان",away:"ليل",time:"22:45",ch:"beIN SPORTS 2",com:"محمد بركات"},
+  ]},
+  {id:"libertadores",name:"كوبا ليبرتادوريس",round:"النهائي",icon:"🏆",color:"#c8a23a",matches:[
+    {home:"بالميراس",away:"استوديانتس",time:"23:00",ch:"beIN SPORTS 6",com:"حسن العيدروس"},
   ]},
 ]};
 /* 🗄️ الأرشيف — الأحدث أولًا */
 const ARCHIVE = [
+ {day:"2026-11-27", leagues:[
+  {id:"spl",name:"دوري روشن السعودي",round:"الجولة 13",icon:"🇸🇦",color:"#1b8a5a",matches:[
+    {home:"الخلود",away:"الخليج",time:"15:15",ch:"ثمانية",com:"سلطان الحربي",s:null},
+    {home:"القادسية",away:"الفيحاء",time:"17:20",ch:"ثمانية",com:"سعد يحيى",s:null},
+    {home:"الاتحاد",away:"نيوم",time:"20:30",ch:"ثمانية",com:"فارس عوض",s:null},
+  ]},
+  {id:"epl",name:"الدوري الإنجليزي",round:"الجولة 12",icon:"🦁",color:"#3d195b",matches:[
+    {home:"نوتنغهام",away:"تشيلسي",time:"23:00",ch:"beIN SPORTS 1",com:"عامر الخوذيري",s:null},
+  ]},
+  {id:"laliga",name:"الدوري الإسباني",round:"الجولة 14",icon:"🇪🇸",color:"#e8341c",matches:[
+    {home:"ليفانتي",away:"راسينغ",time:"23:00",ch:"beIN SPORTS 3",com:"احمد عبده",s:null},
+  ]},
+  {id:"ligue1",name:"الدوري الفرنسي",round:"الجولة 12",icon:"🇫🇷",color:"#0b3d91",matches:[
+    {home:"بريست",away:"باريس إف سي",time:"22:45",ch:"beIN SPORTS 2",com:"نوفل باشي",s:null},
+  ]},
+  {id:"bundes",name:"الدوري الألماني",round:"الجولة 11",icon:"🇩🇪",color:"#d20515",matches:[
+    {home:"فيردر بريمن",away:"مونشنغلادباخ",time:"22:30",ch:"شاهد",com:"عائد العصيمي",s:null},
+  ]},
+  {id:"seriea",name:"الدوري الإيطالي",round:"الجولة 13",icon:"🇮🇹",color:"#1a73e8",matches:[
+    {home:"فينيزيا",away:"بولونيا",time:"22:45",ch:"STARZPLAY",com:"حازم عبد السلام",s:null},
+  ]},
+]},
  {day:"2026-11-26", leagues:[
   {id:"spl",name:"دوري روشن السعودي",round:"الجولة 13",icon:"🇸🇦",color:"#1b8a5a",matches:[
     {home:"الفتح",away:"الرياض",time:"17:25",ch:"ثمانية",com:"جعفر الصليح",s:null},
@@ -233,12 +270,12 @@ const ARCHIVE = [
   ]},
   {id:"uecl",name:"دوري المؤتمر الأوروبي",round:"الجولة 4",icon:"🟢",color:"#16a34a",matches:[
     {home:"كايرات",away:"ميالبي",time:"18:30",ch:"beIN SPORTS 2",com:"محمد بركات",s:null},
-    {home:"أياكس أمستردام",away:"ثون",time:"20:45",ch:"beIN SPORTS 9",com:"أحمد عبده",s:null},
-    {home:"برايتون",away:"كرايوفا",time:"20:45",ch:"beIN SPORTS 2",com:"أحمد فؤاد",s:null},
-    {home:"إيبيريا",away:"خيتافي",time:"20:45",ch:"beIN SPORTS XTRA 1",com:"محمد المبروكي",s:null},
-    {home:"فرايبورغ",away:"تفينتي أنشخيده",time:"23:00",ch:"beIN SPORTS 7",com:"بكر علوان",s:null},
-    {home:"بوراك",away:"أتالانتا",time:"23:00",ch:"beIN SPORTS 8",com:"حسن العيدروس",s:null},
-    {home:"سسكا صوفيا",away:"طرابزون سبور",time:"23:00",ch:"beIN SPORTS 1",com:"جواد بدة",s:null},
+    {home:"أياكس أمستردام",away:"ثون",time:"20:45",ch:"beIN SPORTS 9",com:"أحمد عبده",s:[4,0]},
+    {home:"برايتون",away:"كرايوفا",time:"20:45",ch:"beIN SPORTS 2",com:"أحمد فؤاد",s:[4,0]},
+    {home:"إيبيريا",away:"خيتافي",time:"20:45",ch:"beIN SPORTS XTRA 1",com:"محمد المبروكي",s:[1,0]},
+    {home:"فرايبورغ",away:"تفينتي أنشخيده",time:"23:00",ch:"beIN SPORTS 7",com:"بكر علوان",s:[2,1]},
+    {home:"بوراك",away:"أتالانتا",time:"23:00",ch:"beIN SPORTS 8",com:"حسن العيدروس",s:[2,3]},
+    {home:"سسكا صوفيا",away:"طرابزون سبور",time:"23:00",ch:"beIN SPORTS 1",com:"جواد بدة",s:[1,2]},
   ]},
   {id:"uel",name:"الدوري الأوروبي",round:"الجولة 5",icon:"🟠",color:"#f07a1a",matches:[
     {home:"أولمبياكوس",away:"ميلان",time:"20:45",ch:"beIN SPORTS 1",com:"عصام الشوالي",s:[2,4]},
@@ -306,7 +343,7 @@ const ARCHIVE = [
 ];
 let DAY = TODAY.day, LEAGUES = TODAY.leagues, VIEW = 0; // 0 = اليوم، 1.. = أيام الأرشيف
 /* الاسم الإنجليزي لجلب الشعار تلقائيًا — أو local:مسار_صورة لشعار محلي */
-const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png", "شباب الأهلي": "local:logos/shababahli.svg", "القادسية": "local:logos/qadsiah.svg", "النصر": "local:logos/alnassr.svg", "السد": "local:logos/alsadd.svg", "غلطة سراي": "local:logos/galatasaray.png", "أستون فيلا": "local:logos/astonvilla.png", "بودو / غليمت": "local:logos/bodo.png", "لاسك لينتس": "local:logos/lask.png", "ريال مدريد": "local:logos/realmadrid.png", "أيندهوفن": "local:logos/psv.png", "مانشستر سيتي": "local:logos/mancity.png", "نابولي": "local:logos/napoli.png", "آرسنال": "local:logos/arsenal.png", "بوروسيا دورتموند": "local:logos/dortmund.png", "كومو": "local:logos/como.png", "أيك أثينا": "local:logos/aek.png", "فينورد": "local:logos/feyenoord.png", "بورتو": "local:logos/porto.png", "لايبزيغ": "local:logos/leipzig.png", "لانس": "local:logos/lens.png", "سلوفان": "local:logos/slovan.svg", "ريال بيتيس": "local:logos/betis.png", "إيست بنغال": "local:logos/eastbengal.svg", "الحسين": "local:logos/alhussein.svg", "الشرطة": "local:logos/alshorta.svg", "الزوراء": "local:logos/alzawraa.svg", "عجمان": "local:logos/ajman.svg", "الاتفاق": "local:logos/ettifaq.svg", "الدحيل": "local:logos/duhail.svg", "نيوم": "local:logos/neom.svg", "الفتح": "local:logos/fateh.svg", "الرياض": "local:logos/alriyadh.svg", "أبها": "local:logos/abha.svg", "الشباب": "local:logos/alshabab.svg", "كايرات": "local:logos/kairat.svg", "ميالبي": "local:logos/mjallby.svg", "أياكس أمستردام": "local:logos/ajax.png", "ثون": "local:logos/thun.png", "برايتون": "local:logos/brighton.png", "كرايوفا": "local:logos/craiova.png", "إيبيريا": "local:logos/iberia.svg", "خيتافي": "local:logos/getafe.png", "فرايبورغ": "local:logos/freiburg.png", "تفينتي أنشخيده": "local:logos/twente.png", "بوراك": "local:logos/borac.svg", "أتالانتا": "local:logos/atalanta.png", "سسكا صوفيا": "local:logos/cskasofia.svg", "طرابزون سبور": "local:logos/trabzonspor.png", "أولمبياكوس": "local:logos/olympiacos.svg", "ميلان": "local:logos/milan.png", "مارسيليا": "local:logos/marseille.png", "ليفسكي": "local:logos/levski.svg", "فيكتوريا بيلزن": "local:logos/plzen.png", "بنفيكا": "local:logos/benfica.png", "دينامو زغرب": "local:logos/dinamozagreb.svg", "باير ليفركوزن": "local:logos/leverkusen.png", "سالزبورغ": "local:logos/salzburg.png", "أرارات أرمينيا": "local:logos/ararat.svg", "سيلتا فيغو": "local:logos/celta.png", "بورنموث": "local:logos/bournemouth.png", "يوفنتوس": "local:logos/juventus.png", "ليون": "local:logos/lyon.png", "ليلستروم": "local:logos/lillestrom.png", "سبارتا براغ": "local:logos/sparta.png", "ألكمار": "local:logos/az.png", "كريستال بالاس": "local:logos/palace.png", "ريال سوسيداد": "local:logos/sociedad.png", "سندرلاند": "local:logos/sunderland.png", "بياليستوك": "local:logos/jagiellonia.svg", "هوفنهايم": "local:logos/hoffenheim.png", "شتورم غراتس": "local:logos/sturm.svg", "تورينسي": "local:logos/torreense.svg", "سيلتك": "local:logos/celtic.svg", "نيميخن": "local:logos/nec.png", "رين": "local:logos/rennes.svg", "أوفي كريت": "local:logos/ofi.svg", "أندرلخت": "local:logos/anderlecht.svg", "الخلود": "local:logos/kholood.svg", "الخليج": "local:logos/khaleej.svg", "الفيحاء": "local:logos/fayha.svg", "نوتنغهام": "local:logos/forest.svg", "تشيلسي": "local:logos/chelsea.svg", "راسينغ": "local:logos/racing.svg", "بريست": "local:logos/brest.svg", "باريس إف سي": "local:logos/parisfc.svg", "فيردر بريمن": "local:logos/werder.svg", "مونشنغلادباخ": "local:logos/gladbach.svg", "فينيزيا": "local:logos/venezia.svg", "بولونيا": "local:logos/bologna.svg", "نيقوسيا": "local:logos/omonia.svg"};
+const LOGOS = {"الهلال": "local:logos/alhilal.jpg", "نفتشي": "local:logos/neftchi.svg", "الشمال": "local:logos/alshamal.svg", "الأهلي": "local:logos/alahli.svg", "العين": "local:logos/alain.svg", "استقلال": "local:logos/esteghlal.svg", "تراكتور": "local:logos/tractor.svg", "الوصل": "local:logos/alwasl.svg", "الاتحاد": "local:logos/alittihad.svg", "باختاكور": "local:logos/pakhtakor.svg", "القوة الجوية": "local:logos/alquwa.svg", "الغرافة": "local:logos/algharafa.svg", "برينتفورد": "local:logos/brentford.png", "إيفرتون": "local:logos/everton.png", "ليفانتي": "local:logos/levante.png", "التشي": "local:logos/elche.png", "مونزا": "local:logos/monza.png", "فيورنتينا": "local:logos/fiorentina.png", "شباب الأهلي": "local:logos/shababahli.svg", "القادسية": "local:logos/qadsiah.svg", "النصر": "local:logos/alnassr.svg", "السد": "local:logos/alsadd.svg", "غلطة سراي": "local:logos/galatasaray.png", "أستون فيلا": "local:logos/astonvilla.png", "بودو / غليمت": "local:logos/bodo.png", "لاسك لينتس": "local:logos/lask.png", "ريال مدريد": "local:logos/realmadrid.png", "أيندهوفن": "local:logos/psv.png", "مانشستر سيتي": "local:logos/mancity.png", "نابولي": "local:logos/napoli.png", "آرسنال": "local:logos/arsenal.png", "بوروسيا دورتموند": "local:logos/dortmund.png", "كومو": "local:logos/como.png", "أيك أثينا": "local:logos/aek.png", "فينورد": "local:logos/feyenoord.png", "بورتو": "local:logos/porto.png", "لايبزيغ": "local:logos/leipzig.png", "لانس": "local:logos/lens.png", "سلوفان": "local:logos/slovan.svg", "ريال بيتيس": "local:logos/betis.png", "إيست بنغال": "local:logos/eastbengal.svg", "الحسين": "local:logos/alhussein.svg", "الشرطة": "local:logos/alshorta.svg", "الزوراء": "local:logos/alzawraa.svg", "عجمان": "local:logos/ajman.svg", "الاتفاق": "local:logos/ettifaq.svg", "الدحيل": "local:logos/duhail.svg", "نيوم": "local:logos/neom.svg", "الفتح": "local:logos/fateh.svg", "الرياض": "local:logos/alriyadh.svg", "أبها": "local:logos/abha.svg", "الشباب": "local:logos/alshabab.svg", "كايرات": "local:logos/kairat.svg", "ميالبي": "local:logos/mjallby.svg", "أياكس أمستردام": "local:logos/ajax.png", "ثون": "local:logos/thun.png", "برايتون": "local:logos/brighton.png", "كرايوفا": "local:logos/craiova.png", "إيبيريا": "local:logos/iberia.svg", "خيتافي": "local:logos/getafe.png", "فرايبورغ": "local:logos/freiburg.png", "تفينتي أنشخيده": "local:logos/twente.png", "بوراك": "local:logos/borac.svg", "أتالانتا": "local:logos/atalanta.png", "سسكا صوفيا": "local:logos/cskasofia.svg", "طرابزون سبور": "local:logos/trabzonspor.png", "أولمبياكوس": "local:logos/olympiacos.svg", "ميلان": "local:logos/milan.png", "مارسيليا": "local:logos/marseille.png", "ليفسكي": "local:logos/levski.svg", "فيكتوريا بيلزن": "local:logos/plzen.png", "بنفيكا": "local:logos/benfica.png", "دينامو زغرب": "local:logos/dinamozagreb.svg", "باير ليفركوزن": "local:logos/leverkusen.png", "سالزبورغ": "local:logos/salzburg.png", "أرارات أرمينيا": "local:logos/ararat.svg", "سيلتا فيغو": "local:logos/celta.png", "بورنموث": "local:logos/bournemouth.png", "يوفنتوس": "local:logos/juventus.png", "ليون": "local:logos/lyon.png", "ليلستروم": "local:logos/lillestrom.png", "سبارتا براغ": "local:logos/sparta.png", "ألكمار": "local:logos/az.png", "كريستال بالاس": "local:logos/palace.png", "ريال سوسيداد": "local:logos/sociedad.png", "سندرلاند": "local:logos/sunderland.png", "بياليستوك": "local:logos/jagiellonia.svg", "هوفنهايم": "local:logos/hoffenheim.png", "شتورم غراتس": "local:logos/sturm.svg", "تورينسي": "local:logos/torreense.svg", "سيلتك": "local:logos/celtic.svg", "نيميخن": "local:logos/nec.png", "رين": "local:logos/rennes.svg", "أوفي كريت": "local:logos/ofi.svg", "أندرلخت": "local:logos/anderlecht.svg", "الخلود": "local:logos/kholood.svg", "الخليج": "local:logos/khaleej.svg", "الفيحاء": "local:logos/fayha.svg", "نوتنغهام": "local:logos/forest.svg", "تشيلسي": "local:logos/chelsea.svg", "راسينغ": "local:logos/racing.svg", "بريست": "local:logos/brest.svg", "باريس إف سي": "local:logos/parisfc.svg", "فيردر بريمن": "local:logos/werder.svg", "مونشنغلادباخ": "local:logos/gladbach.svg", "فينيزيا": "local:logos/venezia.svg", "بولونيا": "local:logos/bologna.svg", "نيقوسيا": "local:logos/omonia.svg", "الحزم": "local:logos/hazem.svg", "التعاون": "local:logos/taawoun.svg", "مانشستر يونايتد": "local:logos/manutd.svg", "ليدز يونايتد": "local:logos/leeds.svg", "كوفنتري سيتي": "local:logos/coventry.svg", "إبسويتش": "local:logos/ipswich.svg", "رايو فاليكانو": "local:logos/rayo.svg", "أتلتيك بلباو": "local:logos/athletic.png", "إلتشي": "local:logos/elche.png", "أتلتيكو مدريد": "local:logos/atletico.svg", "ألافيس": "local:logos/alaves.svg", "فروسينوني": "local:logos/frosinone.svg", "بارما": "local:logos/parma.svg", "تورينو": "local:logos/torino.svg", "لاتسيو": "local:logos/lazio.svg", "إنتر ميلان": "local:logos/inter.svg", "جنوى": "local:logos/genoa.svg", "هامبورغ": "local:logos/hamburg.svg", "بايرن ميونخ": "local:logos/bayern.svg", "ماينتس": "local:logos/mainz.svg", "يونيون برلين": "local:logos/union.svg", "بادربورن": "local:logos/paderborn.svg", "شالكه": "local:logos/schalke.svg", "شتوتغارت": "local:logos/stuttgart.svg", "فرانكفورت": "local:logos/frankfurt.svg", "أنجيه": "local:logos/angers.svg", "باريس سان جيرمان": "local:logos/psg.svg", "لوريان": "local:logos/lorient.svg", "لومان": "local:logos/lemans.svg", "ليل": "local:logos/lille.svg", "بالميراس": "local:logos/palmeiras.svg", "استوديانتس": "local:logos/estudiantes.svg"};
 const MATCH_MIN = 115; // مدة المباراة التقريبية بالدقائق
 /* 🌐 مصادر بث عامة مرخّصة يراها كل الزوار (HLS ‎.m3u8 عبر https فقط)
    المفتاح: اسم القناة كما في ch، أو "الفريق المضيف|الفريق الضيف" لمباراة بعينها.
